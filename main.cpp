@@ -15,7 +15,18 @@
 
 #include <iostream>
 
+#include "jogo.h"
+
 int main() {
-    std::cout << "Primeiro trabalho de PAC" << std::endl;
+    Jogo jogo("Super torneio", "Minha casa", "2021-08-25", 3, "Felipe", "Batata", "2-2");
+
+    std::cout << std::endl
+              << std::endl;
+
+    Jogo jogo2("Outro torneio", "Na rua", "2020-03-02", 1, "Maria", "Lucy", "4-2");
+
+    jogo.imprimirDados();
+    jogo2.imprimirDados();
+
     return 0;
 }
