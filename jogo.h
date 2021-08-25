@@ -2,7 +2,7 @@
 
 class Jogo {
    public:
-    Jogo(std::string evento, std::string local, std::string data, int rodada, std::string branco, std::string preto, std::string resultado);
+    Jogo(std::string evento, std::string local, std::string data, std::string rodada, std::string branco, std::string preto, std::string resultado);
 
     void imprimirDados();
 
@@ -10,7 +10,7 @@ class Jogo {
     std::string _evento;
     std::string _local;
     std::string _data;
-    int _rodada;
+    std::string _rodada;
     std::string _branco;
     std::string _preto;
     std::string _resultado;

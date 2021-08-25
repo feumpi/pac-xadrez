@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Jogo::Jogo(std::string evento, std::string local, std::string data, int rodada, std::string branco, std::string preto, std::string resultado) {
+Jogo::Jogo(std::string evento, std::string local, std::string data, std::string rodada, std::string branco, std::string preto, std::string resultado) {
     _evento = evento;
     _local = local;
     _data = data;

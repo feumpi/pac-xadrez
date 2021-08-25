@@ -13,20 +13,57 @@
 #                                                                       #
 #######################################################################*/
 
+#include <fstream>
 #include <iostream>
+#include <string>
 
 #include "jogo.h"
 
+std::string extrairValor(std::string linha) {
+    int posInicio, posFim;
+    std::string valor;
+
+    posInicio = linha.find("\"");
+    posInicio++;
+    posFim = linha.find("\"]");
+    valor = linha.substr(posInicio, posFim - posInicio);
+    return valor;
+}
+
 int main() {
-    Jogo jogo("Super torneio", "Minha casa", "2021-08-25", 3, "Felipe", "Batata", "2-2");
+    std::ifstream arquivo;
+    std::string linha, evento, local, data, rodada, branco, preto, resultado;
 
-    std::cout << std::endl
-              << std::endl;
+    arquivo.open("jogo01.pgn");
 
-    Jogo jogo2("Outro torneio", "Na rua", "2020-03-02", 1, "Maria", "Lucy", "4-2");
+    if (arquivo.is_open()) {
+        getline(arquivo, linha);
+        evento = extrairValor(linha);
 
-    jogo.imprimirDados();
-    jogo2.imprimirDados();
+        getline(arquivo, linha);
+        local = extrairValor(linha);
+
+        getline(arquivo, linha);
+        data = extrairValor(linha);
+
+        getline(arquivo, linha);
+        rodada = extrairValor(linha);
+
+        getline(arquivo, linha);
+        branco = extrairValor(linha);
+
+        getline(arquivo, linha);
+        preto = extrairValor(linha);
+
+        getline(arquivo, linha);
+        resultado = extrairValor(linha);
+
+        Jogo jogo(evento, local, data, rodada, branco, preto, resultado);
+        jogo.imprimirDados();
+
+    } else {
+        std::cout << "Não foi possível abrir o arquivo." << std::endl;
+    }
 
     return 0;
 }
