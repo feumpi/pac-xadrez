@@ -12,10 +12,10 @@
 
 # Como utilizar este programa
 
-Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp** e **partida.cpp**, criando um executável **main.exe**:
+Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp** e **interface.cpp**, criando um executável **main.exe**:
 
 ```bash
-g++ main.cpp jogo.cpp partida.cpp -o main.exe
+g++ main.cpp jogo.cpp partida.cpp interface.cpp -o main.exe
 ```
 
 Execute o arquivo **main.exe** criado no passo anterior, informando também o arquivo PGN a ser lido:
