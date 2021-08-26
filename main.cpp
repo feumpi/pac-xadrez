@@ -20,10 +20,8 @@
 #include "partida.h"
 
 int main(int argc, char *argv[]) {
-    Partida partida;
-
-    if (argc > 1) {
-        partida.lerPGN(argv[1]);
+        if (argc > 1) {
+        Partida partida(argv[1]);
     } else {
         std::cout << "Informe o nome de um arquivo PGN como argumento" << std::endl
                   << "Ex: " << argv[0] << " jogo01.pgn" << std::endl;

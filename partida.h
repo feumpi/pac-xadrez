@@ -7,7 +7,7 @@
 //Guarda as informações de uma partida, incluindo o objeto Jogo, mas também a jogada atual e o tabuleiro
 class Partida {
    public:
-    void lerPGN(std::string nomeArquivo);
+    Partida(std::string nomeArquivo);
 
    private:
     Jogo _jogo{};

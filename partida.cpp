@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-void Partida::lerPGN(std::string nomeArquivo) {
+Partida::Partida(std::string nomeArquivo) {
     std::ifstream arquivo;
     std::string linha, evento, local, data, rodada, branco, preto, resultado;
 
