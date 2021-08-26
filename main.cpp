@@ -17,52 +17,18 @@
 #include <iostream>
 #include <string>
 
-#include "jogo.h"
+#include "partida.h"
 
-std::string extrairValor(std::string linha) {
-    int posInicio, posFim;
-    std::string valor;
+int main(int argc, char *argv[]) {
+    Partida partida;
 
-    posInicio = linha.find("\"");
-    posInicio++;
-    posFim = linha.find("\"]");
-    valor = linha.substr(posInicio, posFim - posInicio);
-    return valor;
-}
-
-int main() {
-    std::ifstream arquivo;
-    std::string linha, evento, local, data, rodada, branco, preto, resultado;
-
-    arquivo.open("jogo01.pgn");
-
-    if (arquivo.is_open()) {
-        getline(arquivo, linha);
-        evento = extrairValor(linha);
-
-        getline(arquivo, linha);
-        local = extrairValor(linha);
-
-        getline(arquivo, linha);
-        data = extrairValor(linha);
-
-        getline(arquivo, linha);
-        rodada = extrairValor(linha);
-
-        getline(arquivo, linha);
-        branco = extrairValor(linha);
-
-        getline(arquivo, linha);
-        preto = extrairValor(linha);
-
-        getline(arquivo, linha);
-        resultado = extrairValor(linha);
-
-        Jogo jogo(evento, local, data, rodada, branco, preto, resultado);
-        jogo.imprimirDados();
-
+    if (argc > 1) {
+        partida.lerPGN(argv[1]);
     } else {
-        std::cout << "Não foi possível abrir o arquivo." << std::endl;
+        std::cout << "Informe o nome de um arquivo PGN como argumento" << std::endl
+                  << "Ex: " << argv[0] << " jogo01.pgn" << std::endl;
+
+        return 1;
     }
 
     return 0;

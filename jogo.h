@@ -2,7 +2,7 @@
 
 class Jogo {
    public:
-    Jogo(std::string evento, std::string local, std::string data, std::string rodada, std::string branco, std::string preto, std::string resultado);
+    Jogo(std::string evento = "", std::string local = "", std::string data = "", std::string rodada = "", std::string branco = "", std::string preto = "", std::string resultado = "");
 
     void imprimirDados();
 
