@@ -1,10 +1,19 @@
+#ifndef JOGO_H
+#define JOGO_H
+
 #include <string>
 
 class Jogo {
    public:
     Jogo(std::string evento = "", std::string local = "", std::string data = "", std::string rodada = "", std::string branco = "", std::string preto = "", std::string resultado = "");
 
-    void imprimirDados();
+    std::string getEvento();
+    std::string getLocal();
+    std::string getData();
+    std::string getRodada();
+    std::string getBranco();
+    std::string getPreto();
+    std::string getResultado();
 
    private:
     std::string _evento;
@@ -15,3 +24,5 @@ class Jogo {
     std::string _preto;
     std::string _resultado;
 };
+
+#endif

@@ -12,12 +12,24 @@ Jogo::Jogo(std::string evento, std::string local, std::string data, std::string 
     _resultado = resultado;
 }
 
-void Jogo::imprimirDados() {
-    std::cout << "Evento: " << _evento << std::endl;
-    std::cout << "Local: " << _local << std::endl;
-    std::cout << "Data: " << _data << std::endl;
-    std::cout << "Rodada: " << _rodada << std::endl;
-    std::cout << "Branco: " << _branco << std::endl;
-    std::cout << "Preto: " << _preto << std::endl;
-    std::cout << "Resultado: " << _resultado << std::endl;
+std::string Jogo::getEvento() {
+    return _evento;
+}
+std::string Jogo::getLocal() {
+    return _local;
+}
+std::string Jogo::getData() {
+    return _data;
+}
+std::string Jogo::getRodada() {
+    return _rodada;
+}
+std::string Jogo::getBranco() {
+    return _branco;
+}
+std::string Jogo::getPreto() {
+    return _preto;
+}
+std::string Jogo::getResultado() {
+    return _resultado;
 }

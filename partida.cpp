@@ -31,11 +31,14 @@ Partida::Partida(std::string nomeArquivo) {
         resultado = _extrairValor(linha);
 
         _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado);
-        _jogo.imprimirDados();
 
     } else {
         std::cout << "Não foi possível abrir o arquivo." << std::endl;
     }
+}
+
+Jogo Partida::getJogo() {
+    return _jogo;
 }
 
 std::string Partida::_extrairValor(std::string linha) {
