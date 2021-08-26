@@ -16,6 +16,14 @@ void Interface::imprimirJogo(Jogo jogo) {
     std::cout << "Branco: " << jogo.getBranco() << std::endl;
     std::cout << "Preto: " << jogo.getPreto() << std::endl;
     std::cout << "Resultado: " << jogo.getResultado() << std::endl;
+
+    std::vector<std::string> jogadas = jogo.getJogadas();
+
+    std::cout << "\n\nJogadas:\n\n";
+    for (int i = 0; i < jogadas.size(); i++) {
+        std::cout << jogadas[i] << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro) {

@@ -5,6 +5,7 @@
 Partida::Partida(std::string nomeArquivo) {
     std::ifstream arquivo;
     std::string linha, evento, local, data, rodada, branco, preto, resultado;
+    std::vector<std::string> jogadas;
 
     arquivo.open(nomeArquivo);
 
@@ -30,7 +31,9 @@ Partida::Partida(std::string nomeArquivo) {
         getline(arquivo, linha);
         resultado = _extrairValor(linha);
 
-        _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado);
+        jogadas = _lerJogadas(&arquivo);
+
+        _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado, jogadas);
 
         _tabuleiro = {
             //Linha 1
@@ -142,4 +145,45 @@ std::string Partida::_extrairValor(std::string linha) {
     posFim = linha.find("\"]");
     valor = linha.substr(posInicio, posFim - posInicio);
     return valor;
+}
+
+std::string Partida::_extrairJogada(std::string* linha) {
+    std::string jogada;
+}
+
+std::vector<std::string> Partida::_lerJogadas(std::ifstream* arquivo) {
+    std::string linha, jogada;
+    std::vector<std::string> jogadas;
+    int posInicio, posMeio, posFim;
+
+    while (getline(*arquivo, linha)) {
+        while (linha.length() > 0) {
+            posInicio = linha.find(".");
+
+            //Pula para a próxima linha se não for uma linha de jogadas
+            if (posInicio < 0) break;
+
+            posInicio++;
+
+            linha = linha.substr(posInicio);
+
+            if (posInicio < 0) break;
+
+            posMeio = linha.find(" ");
+
+            if (posMeio < 0) break;
+
+            posFim = linha.find(" ", posMeio + 1);
+
+            if (posFim < 0) posFim = linha.length() - 1;
+
+            jogada = linha.substr(0, posFim);
+
+            jogadas.push_back(jogada);
+
+            linha = linha.substr(posFim);
+        }
+    }
+
+    return jogadas;
 }

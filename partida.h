@@ -18,6 +18,8 @@ class Partida {
     Jogo _jogo{};
 
     std::string _extrairValor(std::string linha);
+    std::string _extrairJogada(std::string* linha);
+    std::vector<std::string> _lerJogadas(std::ifstream* arquivo);
     std::vector<std::vector<std::string>> _tabuleiro;
 };
 

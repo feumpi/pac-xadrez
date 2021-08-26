@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Jogo::Jogo(std::string evento, std::string local, std::string data, std::string rodada, std::string branco, std::string preto, std::string resultado) {
+Jogo::Jogo(std::string evento, std::string local, std::string data, std::string rodada, std::string branco, std::string preto, std::string resultado, std::vector<std::string> jogadas) {
     _evento = evento;
     _local = local;
     _data = data;
@@ -10,6 +10,7 @@ Jogo::Jogo(std::string evento, std::string local, std::string data, std::string 
     _branco = branco;
     _preto = preto;
     _resultado = resultado;
+    _jogadas = jogadas;
 }
 
 std::string Jogo::getEvento() {
@@ -32,4 +33,7 @@ std::string Jogo::getPreto() {
 }
 std::string Jogo::getResultado() {
     return _resultado;
+}
+std::vector<std::string> Jogo::getJogadas() {
+    return _jogadas;
 }
