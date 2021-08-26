@@ -16,6 +16,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "interface.h"
 #include "jogo.h"
@@ -32,9 +33,11 @@ int main(int argc, char *argv[]) {
     Partida partida(argv[1]);
 
     Jogo jogo = partida.getJogo();
+    std::vector<std::vector<std::string>> tabuleiro = partida.getTabuleiro();
     Interface interface;
 
     interface.imprimirJogo(jogo);
+    interface.imprimirTabuleiro(tabuleiro);
 
     return 0;
 }

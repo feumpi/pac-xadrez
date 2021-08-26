@@ -12,11 +12,13 @@ class Partida {
    public:
     Partida(std::string nomeArquivo);
     Jogo getJogo();
+    std::vector<std::vector<std::string>> getTabuleiro();
 
    private:
     Jogo _jogo{};
 
     std::string _extrairValor(std::string linha);
+    std::vector<std::vector<std::string>> _tabuleiro;
 };
 
 #endif

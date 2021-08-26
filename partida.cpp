@@ -32,6 +32,94 @@ Partida::Partida(std::string nomeArquivo) {
 
         _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado);
 
+        _tabuleiro = {
+            //Linha 1
+            {
+                "r",  //torre preta (Rook)
+                "n",  //cavaleiro preto (kNight)
+                "b",  //bispo preto (Bishop)
+                "q",  //rainha preta (Queen)
+                "k",  //rei preto (King)
+                "b",  //bispo preto (Bishop)
+                "n",  //cavaleiro preto (kNight)
+                "r",  //torre preta (Rook)
+            },
+            //Linha 2
+            {
+                //peões pretos
+                "p",
+                "p",
+                "p",
+                "p",
+                "p",
+                "p",
+                "p",
+                "p",
+            },
+            {
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            },
+            {
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            },
+            {
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            },
+            {
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            },
+            //Linha 7
+            {
+                //peões brancos
+                "P",
+                "P",
+                "P",
+                "P",
+                "P",
+                "P",
+                "P",
+                "P",
+            },
+            //Linha 8
+            {
+                "R",  //torre branca (Rook)
+                "N",  //cavaleiro branco (kNight)
+                "B",  //bispo branco (Bishop)
+                "Q",  //rainha branca (Queen)
+                "K",  //rei branco (King)
+                "B",  //bispo branco (Bishop)
+                "N",  //cavaleiro branco (kNight)
+                "R",  //torre branca (Rook)
+            }};
+
     } else {
         std::cout << "Não foi possível abrir o arquivo." << std::endl;
     }
@@ -39,6 +127,10 @@ Partida::Partida(std::string nomeArquivo) {
 
 Jogo Partida::getJogo() {
     return _jogo;
+}
+
+std::vector<std::vector<std::string>> Partida::getTabuleiro() {
+    return _tabuleiro;
 }
 
 std::string Partida::_extrairValor(std::string linha) {
