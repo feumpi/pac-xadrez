@@ -42,5 +42,11 @@ int main(int argc, char *argv[]) {
     interface.imprimirJogo(jogo);
     interface.imprimirTabuleiro(tabuleiro);
 
+    partida.proximaJogada();
+    partida.proximaJogada();
+
+    //tabuleiro = partida.getTabuleiro();
+    //interface.imprimirTabuleiro(tabuleiro);
+
     return 0;
 }

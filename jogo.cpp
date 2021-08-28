@@ -38,3 +38,12 @@ std::string Jogo::getResultado() {
 std::vector<std::string> Jogo::getJogadas() {
     return _jogadas;
 }
+
+std::string Jogo::getJogada(int indice) {
+    if (indice < 0 || indice > _jogadas.size() - 1) {
+        std::cout << "Jogada inválida" << std::endl;
+        return "";
+    }
+
+    return _jogadas[indice];
+}

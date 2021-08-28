@@ -18,6 +18,7 @@ class Jogo {
     std::string getPreto();
     std::string getResultado();
     std::vector<std::string> getJogadas();
+    std::string getJogada(int indice);
 
    private:
     std::string _evento;
