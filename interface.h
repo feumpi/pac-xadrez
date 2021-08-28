@@ -9,18 +9,17 @@
 
 class Interface {
    public:
+    //Exibe uma mensagem de boas-vindas ao inicializar
     Interface();
 
+    //Exibe uma mensagem de encerramento ao fim do programa
     ~Interface();
 
-    //Imprime uma representação visual do tabuleiro usando caracteres ASCII
+    //Recebe uma matriz de string representando o tabuleiro e a imprime usando caracteres ASCII
     void imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro);
 
     //Imprime as informações sobre um jogo
     void imprimirJogo(Jogo jogo);
-
-    //Imprime o que acontece numa jogada
-    void imprimirJogada(std::string);
 };
 
 #endif

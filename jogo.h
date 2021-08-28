@@ -6,8 +6,10 @@
 
 class Jogo {
    public:
+    //Inicializa recebendo os dados do jogo ou em branco, com strings vazias
     Jogo(std::string evento = "", std::string local = "", std::string data = "", std::string rodada = "", std::string branco = "", std::string preto = "", std::string resultado = "", std::vector<std::string> jogadas = {});
 
+    //Getters
     std::string getEvento();
     std::string getLocal();
     std::string getData();
