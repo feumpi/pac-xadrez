@@ -22,6 +22,7 @@ class Partida {
     //Getters
     Jogo getJogo();
     std::vector<std::vector<std::string>> getTabuleiro();
+    bool getAcabou();
 
     //Executa a próxima jogada sequencial dos dois jogadores ao tabuleiro
     void proximaJogada();
@@ -31,6 +32,7 @@ class Partida {
     std::vector<std::vector<std::string>> _tabuleiro;
 
     int _jogadaAtual = -1;
+    bool _acabou = false;
     std::map<std::string, std::string> _pecas;
 
     //Recebe uma string da linha de dados extras do PGN e retorna o apenas o valor que importa

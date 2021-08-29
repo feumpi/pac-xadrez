@@ -44,5 +44,5 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
                   << std::endl;
     }
     //Imprime as letras das colunas correspondentes, com o mesmo espaçamento
-    std::cout << "\t[A]\t[B]\t[C]\t[D]\t[E]\t[F]\t[G]]\t[H]" << std::endl;
+    std::cout << "\t[A]\t[B]\t[C]\t[D]\t[E]\t[F]\t[G]\t[H]" << std::endl;
 }

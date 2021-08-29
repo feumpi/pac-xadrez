@@ -137,6 +137,10 @@ std::vector<std::vector<std::string>> Partida::getTabuleiro() {
     return _tabuleiro;
 }
 
+bool Partida::getAcabou() {
+    return _acabou;
+}
+
 std::string Partida::_extrairValor(std::string linha) {
     int posInicio, posFim;
     std::string valor;
@@ -195,6 +199,13 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream* arquivo) {
 void Partida::proximaJogada() {
     //Obtém a string de NAP da próxima jogada
     ++_jogadaAtual;
+
+    if (_jogadaAtual >= _jogo.getJogadas().size()) {
+        _acabou = true;
+        std::cout << "fim das jogadas" << std::endl;
+        return;
+    }
+
     std::string jogada = _jogo.getJogada(_jogadaAtual);
     std::cout << "Próxima jogada: " << jogada << std::endl;
 
@@ -272,10 +283,8 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino) {
                 continue;
             if (peca == "K" && !Validador::rei(posInicial, posFinal))
                 continue;
-            if (peca == "P" && !Validador::peao(posInicial, posFinal, _jogadaAtual)) {
-                std::cout << "peão invalido" << std::endl;
+            if (peca == "P" && !Validador::peao(posInicial, posFinal, _jogadaAtual))
                 continue;
-            }
 
             //Com a peça certa encontrada na posição (i, j)
             //Remove a peça do quadrado atual
@@ -283,14 +292,11 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino) {
 
             //Muda a peça para uma letra minúscula se for do preto
             if (jogador == PRETO) peca[0] = std::tolower(peca[0]);
-            std::cout << "inicialY = " << posInicial[0] << " inicialX = " << posInicial[1] << std::endl;
-            std::cout << "finalY = " << posFinal[0] << " finalX = " << posFinal[1] << std::endl;
+
             //Adiciona a peça na nova posição
             _tabuleiro[posFinal[0]][posFinal[1]] = peca;
         }
     }
-
-    //_tabuleiro[indices[0]][indices[1]] = jogador == BRANCO ? "P" : "p";
 }
 
 std::vector<int> Partida::_encontrarIndices(std::string coordenada) {

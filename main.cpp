@@ -42,11 +42,17 @@ int main(int argc, char *argv[]) {
     interface.imprimirJogo(jogo);
     interface.imprimirTabuleiro(tabuleiro);
 
-    partida.proximaJogada();
-    partida.proximaJogada();
+    std::cout << "\nENTER: começar" << std::endl;
+    std::cin.ignore();
 
-    tabuleiro = partida.getTabuleiro();
-    interface.imprimirTabuleiro(tabuleiro);
+    while (!partida.getAcabou()) {
+        partida.proximaJogada();
+        tabuleiro = partida.getTabuleiro();
+        interface.imprimirTabuleiro(tabuleiro);
+
+        std::cout << "\nENTER: próxima jogada" << std::endl;
+        std::cin.ignore();
+    }
 
     return 0;
 }
