@@ -38,12 +38,12 @@ Partida::Partida(std::string nomeArquivo) {
             //Linha 1
             {
                 "r",  //torre preta (Rook)
-                "n",  //cavaleiro preto (kNight)
+                "n",  //cavalo preto (kNight)
                 "b",  //bispo preto (Bishop)
-                "q",  //rainha preta (Queen)
+                "q",  //dama preta (Queen)
                 "k",  //rei preto (King)
                 "b",  //bispo preto (Bishop)
-                "n",  //cavaleiro preto (kNight)
+                "n",  //cavalo preto (kNight)
                 "r",  //torre preta (Rook)
             },
             //Linha 2
@@ -113,16 +113,16 @@ Partida::Partida(std::string nomeArquivo) {
             //Linha 8
             {
                 "R",  //torre branca (Rook)
-                "N",  //cavaleiro branco (kNight)
+                "N",  //cavalo branco (kNight)
                 "B",  //bispo branco (Bishop)
-                "Q",  //rainha branca (Queen)
+                "Q",  //dama branca (Queen)
                 "K",  //rei branco (King)
                 "B",  //bispo branco (Bishop)
-                "N",  //cavaleiro branco (kNight)
+                "N",  //cavalo branco (kNight)
                 "R",  //torre branca (Rook)
             }};
 
-        _pecas = {{"R", "torre"}, {"N", "cavaleiro"}, {"B", "bispo"}, {"Q", "rainha"}, {"K", "rei"}, {"P", "peão"}};
+        _pecas = {{"R", "torre"}, {"N", "cavalo"}, {"B", "bispo"}, {"Q", "dama"}, {"K", "rei"}, {"P", "peão"}};
 
     } else {
         std::cout << "Não foi possível abrir o arquivo." << std::endl;
