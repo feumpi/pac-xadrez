@@ -27,3 +27,7 @@ Inicializa lendo os dados de um arquivo PGN e então instancia um objeto _Jogo_ 
 ## Classe Interface
 
 Responsável pelas impressões na tela, como a formatação dos dados extras sobre um jogo e o desenho do tabuleiro. Também exibe uma mensagem de boas-vindas ao ser construída e uma mensagem final no encerramento.
+
+## Classe Validador
+
+Uma classe de métodos estáticos (ou seja, que não precisa ser instanciada) para validar o movimento de uma peça de acordo com as regras do xadrez, recebendo as posições final e inicial no tabuleiro e retornado _true_, para um movimento válido, ou _false_, para um movimento proibido.
