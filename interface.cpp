@@ -31,17 +31,18 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
     //Iteração das linhas
     for (int i = 0; i < tabuleiro.size(); i++) {
         //Imprime o número da linha, de 8 a 1
-        std::cout << 8 - i << "   ";
+        std::cout << "[" << 8 - i << "]"
+                  << "\t";
 
         //Iteração das colunas em cada linha
         for (int j = 0; j < tabuleiro[i].size(); j++) {
             //Elemento do quadrado e espaçmento à direita
-            std::cout << tabuleiro[i][j] << "   ";
+            std::cout << tabuleiro[i][j] << "\t";
         }
 
         std::cout << std::endl
                   << std::endl;
     }
     //Imprime as letras das colunas correspondentes, com o mesmo espaçamento
-    std::cout << "    a   b   c   d   e   f   g   h" << std::endl;
+    std::cout << "\t[A]\t[B]\t[C]\t[D]\t[E]\t[F]\t[G]]\t[H]" << std::endl;
 }

@@ -41,7 +41,8 @@ bool Validador::rei(std::vector<int> posInicial, std::vector<int> posFinal) {
 }
 
 bool Validador::peao(std::vector<int> posInicial, std::vector<int> posFinal, int indiceJogada) {
-    int difY = posFinal[0] - posInicial[0];
+    //Nesse caso, importa se é positivo ou negativo, e os índices do tabuleiro começam ao contrário (de cima pra baixo)
+    int difY = std::abs(posFinal[0] - posInicial[0]);
     int difX = std::abs(posFinal[1] - posInicial[1]);
 
     //Primeira jogada

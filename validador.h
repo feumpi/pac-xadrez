@@ -2,6 +2,7 @@
 #define VALIDADOR_H
 
 #include <cstdlib>
+#include <iostream>
 #include <vector>
 
 class Validador {

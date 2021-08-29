@@ -238,20 +238,62 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 }
 
 void Partida::_moverPeca(int jogador, std::string peca, std::string destino) {
+    std::string pecaAtual;
+    std::vector<int> posInicial;
+
     std::cout << "Movendo " << _pecas[peca] << " "
               << ((jogador == BRANCO) ? "branco" : "preto")
               << " para " << destino << std::endl;
 
-    //TODO: iterar o tabuleiro e testar as peças do tipo certo até achar uma que atenda aos requisitos de movimento em x e y
-
     //Encontra os índices i,j do destino na matriz do tabuleiro a partir da coordenada algébrica (e1 -> linha 0, coluna 4)
-    std::vector<int> indices = _encontrarIndices(destino);
+    std::vector<int> posFinal = _encontrarIndices(destino);
+
+    //TODO: iterar o tabuleiro e testar as peças do tipo certo até achar uma que atenda aos requisitos de movimento em x e y
+    for (int i = 0; i < _tabuleiro.size(); i++) {
+        for (int j = 0; j < _tabuleiro[i].size(); j++) {
+            pecaAtual = _tabuleiro[i][j];
+            posInicial = {i, j};
+
+            //Avança para a próxima iteração se a peça for do outro jogador
+            if ((jogador == BRANCO && std::islower(pecaAtual[0])) || (jogador == PRETO && std::isupper(pecaAtual[0]))) continue;
+
+            //Avança para a próxima iteração se a peça não for do mesmo tipo
+            if (std::toupper(pecaAtual[0]) != peca[0]) continue;
+
+            //Avança para a próxima iteração se o movimento for inválido
+            if (peca == "R" && !Validador::torre(posInicial, posFinal))
+                continue;
+            if (peca == "N" && !Validador::cavalo(posInicial, posFinal))
+                continue;
+            if (peca == "B" && !Validador::bispo(posInicial, posFinal))
+                continue;
+            if (peca == "Q" && !Validador::dama(posInicial, posFinal))
+                continue;
+            if (peca == "K" && !Validador::rei(posInicial, posFinal))
+                continue;
+            if (peca == "P" && !Validador::peao(posInicial, posFinal, _jogadaAtual)) {
+                std::cout << "peão invalido" << std::endl;
+                continue;
+            }
+
+            //Com a peça certa encontrada na posição (i, j)
+            //Remove a peça do quadrado atual
+            _tabuleiro[posInicial[0]][posInicial[1]] = "";
+
+            //Muda a peça para uma letra minúscula se for do preto
+            if (jogador == PRETO) peca[0] = std::tolower(peca[0]);
+            std::cout << "inicialY = " << posInicial[0] << " inicialX = " << posInicial[1] << std::endl;
+            std::cout << "finalY = " << posFinal[0] << " finalX = " << posFinal[1] << std::endl;
+            //Adiciona a peça na nova posição
+            _tabuleiro[posFinal[0]][posFinal[1]] = peca;
+        }
+    }
 
     //_tabuleiro[indices[0]][indices[1]] = jogador == BRANCO ? "P" : "p";
 }
 
 std::vector<int> Partida::_encontrarIndices(std::string coordenada) {
-    std::string colunas = "abcdefgh", linhas = "12345678";
+    std::string colunas = "abcdefgh", linhas = "87654321";
     std::string colunaStr = coordenada.substr(0, 1), linhaStr = coordenada.substr(1, 1);
 
     int coluna = colunas.find(colunaStr), linha = linhas.find(linhaStr);

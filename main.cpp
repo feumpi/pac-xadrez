@@ -45,8 +45,8 @@ int main(int argc, char *argv[]) {
     partida.proximaJogada();
     partida.proximaJogada();
 
-    //tabuleiro = partida.getTabuleiro();
-    //interface.imprimirTabuleiro(tabuleiro);
+    tabuleiro = partida.getTabuleiro();
+    interface.imprimirTabuleiro(tabuleiro);
 
     return 0;
 }

@@ -1,12 +1,14 @@
 #ifndef PARTIDA_H
 #define PARTIDA_H
 
+#include <cctype>
 #include <fstream>
 #include <map>
 #include <string>
 #include <vector>
 
 #include "jogo.h"
+#include "validador.h"
 
 #define BRANCO 0
 #define PRETO 1
