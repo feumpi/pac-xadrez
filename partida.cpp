@@ -126,6 +126,7 @@ Partida::Partida(std::string nomeArquivo) {
 
     } else {
         std::cout << "Não foi possível abrir o arquivo." << std::endl;
+        exit(-1);
     }
 }
 
