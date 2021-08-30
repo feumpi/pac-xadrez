@@ -18,6 +18,12 @@ Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **part
 > g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp -o main.sh
 ```
 
+Ou usando um atalho para incluir todos os arquivos **.cpp** do diretório:
+
+```bash
+> g++ *.cpp -o main.sh
+```
+
 Execute o arquivo **main.sh** criado no passo anterior
 
 ```bash
