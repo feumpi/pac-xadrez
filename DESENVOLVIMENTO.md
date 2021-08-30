@@ -12,27 +12,34 @@
 
 # Sobre o desenvolvimento deste programa
 
-## Classe Jogo
+## Convenções
 
-Tem como propriedades os dados de um jogo, como o local e nomes dos jogadores, e também a sequência de jogadas em _NAP_.
+### Nomes de classes
 
----
+Para todos os nomes de classes, foi adotada a convenção _PascalCase_, com todas as iniciais de palavras em letra maiúscula.
 
-## Classe Partida
+```cpp
+class NomeDaClasse {
+    (...)
+};
+```
 
-Inicializa lendo os dados de um arquivo PGN e então instancia um objeto `Jogo` com eles. Contém também uma matriz que representa o tabuleiro com as posições das peças e é responsável por aplicar a próxima jogada e atualizá-lo.
+### Nomes de variáveis, propriedades e métodos
 
----
+Para todos os nomes de variáveis, propriedades e métodos, foi adotada a convenção _camelCase_, com a primeira inicial minúscula e todas as iniciais seguintes em letra maiúscula.
 
-## Classe Interface
+No caso de propriedades e métodos privados, também foi utilizada a convenção de começar o nome com um _underscore_.
 
-Responsável pelas impressões na tela, como a formatação dos dados extras sobre um jogo e o desenho do tabuleiro. Também exibe uma mensagem de boas-vindas ao ser construída e uma mensagem final no encerramento.
-
-## Classe Validador
-
-Uma classe de métodos estáticos (ou seja, que não precisa ser instanciada) para validar o movimento de uma peça de acordo com as regras do xadrez, recebendo as posições final e inicial no tabuleiro e retornado `true`, para um movimento válido, ou `false`, para um movimento proibido.
-
----
+```cpp
+(...)
+public:
+    int getPropriedadeUm();
+    int getPropriedadeDois();
+private:
+    int _propriedadeUm;
+    int _propriedadeDois;
+(...)
+```
 
 ## Fluxo do programa
 
@@ -73,3 +80,25 @@ Para cada jogada em NAP, ocorre a interpretação da string para verificar qual 
 A partir da coordenada algébrica do destino (ex. e4), são determinados os índices i,j do quadrado no tabuleiro e encontrada uma peça do tipo adequado que tenha movimento válido para esse destino, usando os métodos da classe Validador (ex. `Validador::peao_ `). A peça adequada é então removida da posição anterior e colocada na posição final.
 
 Nesse momento o programa pode solicitar a impressão do novo tabuleiro usando `Interface::imprimirTabuleiro`.
+
+---
+
+## Sobre as classes
+
+### Classe Jogo
+
+Tem como propriedades os dados de um jogo, como o local e nomes dos jogadores, e também a sequência de jogadas em _NAP_.
+
+### Classe Partida
+
+Inicializa lendo os dados de um arquivo PGN e então instancia um objeto `Jogo` com eles. Contém também uma matriz que representa o tabuleiro com as posições das peças e é responsável por aplicar a próxima jogada e atualizá-lo.
+
+### Classe Interface
+
+Responsável pelas impressões na tela, como a formatação dos dados extras sobre um jogo e o desenho do tabuleiro. Também exibe uma mensagem de boas-vindas ao ser construída e uma mensagem final no encerramento.
+
+### Classe Validador
+
+Uma classe de métodos estáticos (ou seja, que não precisa ser instanciada) para validar o movimento de uma peça de acordo com as regras do xadrez, recebendo as posições final e inicial no tabuleiro e retornado `true`, para um movimento válido, ou `false`, para um movimento proibido.
+
+---
