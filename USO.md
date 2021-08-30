@@ -12,14 +12,27 @@
 
 # Como utilizar este programa
 
-Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp** e **interface.cpp**, criando um executável **main.exe**:
+Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp**, criando um executável **main.sh**:
 
 ```bash
-g++ main.cpp jogo.cpp partida.cpp interface.cpp -o main.exe
+> g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp -o main.sh
 ```
 
-Execute o arquivo **main.exe** criado no passo anterior, informando também o arquivo PGN a ser lido:
+Execute o arquivo **main.sh** criado no passo anterior
 
 ```bash
-./main.exe jogo01.pgn
+> ./main.sh
+```
+
+O programa solicitará o nome de um arquivo PGN a ser lido:
+
+```bash
+Informe o nome de um arquivo PGN a ser lido. Ex: jogo01.pgn
+> Nome: _
+```
+
+Esse passo pode ser evitado informando o nome como argumento na linha de comando:
+
+```bash
+> ./main.sh jogo01.pgn
 ```

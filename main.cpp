@@ -23,15 +23,20 @@
 #include "partida.h"
 
 int main(int argc, char *argv[]) {
-    if (argc <= 1) {
-        std::cout << "Informe o nome de um arquivo PGN como argumento" << std::endl
-                  << "Ex: " << argv[0] << " jogo01.pgn" << std::endl;
+    std::string nomeArquivo;
 
-        return -1;
+    if (argc > 1) {
+        nomeArquivo = argv[1];
+    } else {
+        std::cout << "Informe o nome de um arquivo PGN a ser lido. Ex: jogo01.pgn" << std::endl
+                  << "Nome: ";
+
+        std::cin >> nomeArquivo;
+        std::cin.ignore();
     }
 
     //Inicializa a partida com o nome do arquivo a ser lido
-    Partida partida(argv[1]);
+    Partida partida(nomeArquivo);
 
     //Inicializa a interface, imprime os dados do jogo e o tabuleiro inicial
     Interface interface;

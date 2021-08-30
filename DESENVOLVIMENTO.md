@@ -45,9 +45,9 @@ private:
 
 ### O início de tudo
 
-Pra começar, o programa verifica se um nome de arquivo PGN foi passado como argumento pela linha de comando. Se não for, imprime a sintaxe esperada e encerra.
+Pra começar, o programa verifica se um nome de arquivo PGN foi passado como argumento pela linha de comando. Se não for, solicita ao usuário e coleta o nome da entrada padrão.
 
-Se for, instancia um objeto `Partida` que recebe o nome desse arquivo.
+Depois, instancia um objeto `Partida` que recebe o nome desse arquivo.
 
 ### Lendo o arquivo
 
