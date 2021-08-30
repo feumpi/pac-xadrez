@@ -33,22 +33,18 @@ int main(int argc, char *argv[]) {
     //Inicializa a partida com o nome do arquivo a ser lido
     Partida partida(argv[1]);
 
-    //Obtém o jogo e o tabuleiro do objeto Partida
-    Jogo jogo = partida.getJogo();
-    std::vector<std::vector<std::string>> tabuleiro = partida.getTabuleiro();
-
     //Inicializa a interface, imprime os dados do jogo e o tabuleiro inicial
     Interface interface;
-    interface.imprimirJogo(jogo);
-    interface.imprimirTabuleiro(tabuleiro);
+    interface.imprimirJogo(partida.getJogo());
+    interface.imprimirTabuleiro(partida.getTabuleiro());
 
     std::cout << "\nENTER: começar" << std::endl;
     std::cin.ignore();
 
     while (!partida.getAcabou()) {
         partida.proximaJogada();
-        tabuleiro = partida.getTabuleiro();
-        interface.imprimirTabuleiro(tabuleiro);
+
+        interface.imprimirTabuleiro(partida.getTabuleiro());
 
         std::cout << "\nENTER: próxima jogada" << std::endl;
         std::cin.ignore();

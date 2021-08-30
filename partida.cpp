@@ -28,7 +28,7 @@ Partida::Partida(std::string nomeArquivo) {
         resultado = _extrairValor(linha);
 
         //Extrai as jogadas das linhas restantes do arquivo
-        jogadas = _lerJogadas(&arquivo);
+        jogadas = _lerJogadas(arquivo);
 
         //Cria o objeto jogo com os dados que foram lidos
         _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado, jogadas);
@@ -157,13 +157,13 @@ std::string Partida::_extrairValor(std::string linha) {
     return valor;
 }
 
-std::vector<std::string> Partida::_lerJogadas(std::ifstream* arquivo) {
+std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
     std::string linha, jogada;
     std::vector<std::string> jogadas;
     int posInicio, posMeio, posFim;
 
     //Itera as linhas restantes do arquivo
-    while (getline(*arquivo, linha)) {
+    while (getline(arquivo, linha)) {
         //Extrai a próxima jogada da linha atual, enquanto ela existir
         while (linha.length() > 0) {
             posInicio = linha.find(".");

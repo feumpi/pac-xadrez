@@ -39,7 +39,7 @@ class Partida {
     std::string _extrairValor(std::string linha);
 
     //Recebe o arquivo PGN aberto (com os dados extras já extraídos) e retorna um vetor de strings com as jogadas em sequência
-    std::vector<std::string> _lerJogadas(std::ifstream* arquivo);
+    std::vector<std::string> _lerJogadas(std::ifstream& arquivo);
 
     //Aplica uma única jogada ao tabuleiro
     void _aplicarJogada(int jogador, std::string Jogada);
