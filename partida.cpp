@@ -226,6 +226,12 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
     //Extrai a letra da peça da jogada no índice 0
     peca = jogada.substr(0, 1);
 
+    //Caso especial roque
+    if (peca == "O") {
+        _moverRoque(jogador, jogada);
+        return;
+    }
+
     //Se for uma letra convencional, a coordenada começa no índice 1
     if (peca == "R" || peca == "N" || peca == "B" || peca == "Q" || peca == "K")
         posInicio = 1;
@@ -247,6 +253,50 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Move um tipo de peça de um jogador específico para o destino encontrado
     _moverPeca(jogador, peca, destino);
+}
+
+void Partida::_moverRoque(int jogador, std::string jogada) {
+    std::vector<int> posRei, posTorre;
+
+    //Posição inicial do rei
+    jogador == BRANCO ? posRei = {7, 4} : posRei = {0, 4};
+
+    //Para a esquerda (queenside)
+    if (jogada.find("O-O-O") != -1) {
+        //Posição inicial da torre
+        jogador == BRANCO ? posTorre = {7, 0} : posTorre = {0, 0};
+
+        //Move o rei 2 casas para a esquerda
+        _tabuleiro[posRei[0]][posRei[1]] = "";
+        _tabuleiro[posRei[0]][posRei[1] - 2] = jogador == BRANCO ? "K" : "k";
+
+        //Move a torre 3 casas para a direita
+        _tabuleiro[posTorre[0]][posTorre[1]] = "";
+        _tabuleiro[posTorre[0]][posTorre[1] + 3] = jogador == BRANCO ? "R" : "r";
+
+        std::cout << "Movimento roque do "
+                  << ((jogador == BRANCO) ? "branco" : "preto")
+                  << " para a esquerda" << std::endl;
+
+    }
+
+    //Para a direita (kingside)
+    else {
+        //Posição inicial da torre
+        jogador == BRANCO ? posTorre = {7, 7} : posTorre = {0, 7};
+
+        //Move o rei 2 casas para a direita
+        _tabuleiro[posRei[0]][posRei[1]] = "";
+        _tabuleiro[posRei[0]][posRei[1] + 2] = jogador == BRANCO ? "K" : "k";
+
+        //Move a torre 2 casas para a esquerda
+        _tabuleiro[posTorre[0]][posTorre[1]] = "";
+        _tabuleiro[posTorre[0]][posTorre[1] - 2] = jogador == BRANCO ? "R" : "r";
+
+        std::cout << "Movimento roque do "
+                  << ((jogador == BRANCO) ? "branco" : "preto")
+                  << " para a direita" << std::endl;
+    }
 }
 
 void Partida::_moverPeca(int jogador, std::string peca, std::string destino) {

@@ -47,6 +47,9 @@ class Partida {
     //Encontra uma peça do tipo adequada e a move para o destino
     void _moverPeca(int jogador, std::string peca, std::string destino);
 
+    //Executa a jogada especial roque (castling)
+    void _moverRoque(int jogador, std::string jogada);
+
     //Recebe uma coordenada algébrica e retorna um vetor dos índices correspondentes no tabuleiro
     std::vector<int> _encontrarIndices(std::string coordenada);
 };
