@@ -38,10 +38,10 @@ int main(int argc, char *argv[]) {
     //Inicializa a partida com o nome do arquivo a ser lido
     Partida partida(nomeArquivo);
 
-    //Inicializa a interface, imprime os dados do jogo e o tabuleiro inicial
+    //Inicializa a interface, imprime os dados do jogo e o tabuleiro inicial com legenda
     Interface interface;
     interface.imprimirJogo(partida.getJogo());
-    interface.imprimirTabuleiro(partida.getTabuleiro());
+    interface.imprimirTabuleiro(partida.getTabuleiro(), true);
 
     std::cout << "\nENTER: começar" << std::endl;
     std::cin.ignore();

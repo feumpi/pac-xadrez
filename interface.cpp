@@ -27,22 +27,28 @@ void Interface::imprimirJogo(Jogo jogo) {
     std::cout << std::endl;
 }
 
-void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro) {
+void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda) {
+    std::cout << std::endl;
+
+    if (legenda) std::cout << T_LEGENDA;
+
+    std::cout << T_LINHA_LETRAS;
+    std::cout << T_BORDA_HORIZONTAL;
+
     //Iteração das linhas
     for (int i = 0; i < tabuleiro.size(); i++) {
-        //Imprime o número da linha, de 8 a 1
-        std::cout << "[" << 8 - i << "]"
-                  << "\t";
+        std::cout << T_LINHA_VAZIA;
+        //Imprime o número da linha, de 8 a 1, e a borda esquerda
+        std::cout << 8 - i << " |";
 
         //Iteração das colunas em cada linha
         for (int j = 0; j < tabuleiro[i].size(); j++) {
-            //Elemento do quadrado e espaçmento à direita
-            std::cout << tabuleiro[i][j] << "\t";
+            //Elemento do quadrado ou espaço vazio, espaçamento e borda direita
+            std::cout << "   " << (tabuleiro[i][j].length() > 0 ? tabuleiro[i][j] : " ") << "   |";
         }
 
-        std::cout << std::endl
-                  << std::endl;
+        std::cout << "\n";
+        std::cout << T_LINHA_VAZIA;
+        std::cout << T_BORDA_HORIZONTAL;
     }
-    //Imprime as letras das colunas correspondentes, com o mesmo espaçamento
-    std::cout << "\t[A]\t[B]\t[C]\t[D]\t[E]\t[F]\t[G]\t[H]" << std::endl;
 }
