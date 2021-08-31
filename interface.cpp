@@ -29,6 +29,7 @@ void Interface::imprimirJogo(Jogo jogo) {
 
 void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda) {
     std::cout << std::endl;
+    int numLinha;
 
     if (legenda) std::cout << T_LEGENDA;
 
@@ -39,7 +40,8 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
     for (int i = 0; i < tabuleiro.size(); i++) {
         std::cout << T_LINHA_VAZIA;
         //Imprime o número da linha, de 8 a 1, e a borda esquerda
-        std::cout << 8 - i << " |";
+        numLinha = 8 - i;
+        std::cout << "[" << numLinha << "] |";
 
         //Iteração das colunas em cada linha
         for (int j = 0; j < tabuleiro[i].size(); j++) {
@@ -47,8 +49,11 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
             std::cout << "   " << (tabuleiro[i][j].length() > 0 ? tabuleiro[i][j] : " ") << "   |";
         }
 
-        std::cout << "\n";
+        std::cout << " [" << numLinha << "]\n";
         std::cout << T_LINHA_VAZIA;
         std::cout << T_BORDA_HORIZONTAL;
     }
+
+    std::cout << T_LINHA_LETRAS;
+    std::cout << std::endl;
 }

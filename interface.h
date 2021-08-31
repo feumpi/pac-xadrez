@@ -6,9 +6,9 @@
 #include <vector>
 
 #define T_LEGENDA "R: torre, N: cavalo, B: bispo, Q: dama, K: rei, P: peão\nMaíscula: Branco, Minúscula: Preto\n\n"
-#define T_LINHA_LETRAS "      A       B       C       D       E       F       G       H    \n"
-#define T_BORDA_HORIZONTAL "  -----------------------------------------------------------------\n"
-#define T_LINHA_VAZIA "  |       |       |       |       |       |       |       |       |\n"
+#define T_LINHA_LETRAS "       [A]     [B]     [C]     [D]     [E]     [F]     [G]     [H]   \n"
+#define T_BORDA_HORIZONTAL "    -----------------------------------------------------------------\n"
+#define T_LINHA_VAZIA "    |       |       |       |       |       |       |       |       |\n"
 
 #include "jogo.h"
 
