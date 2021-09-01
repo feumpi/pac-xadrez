@@ -40,7 +40,7 @@ bool Validador::rei(std::vector<int> posInicial, std::vector<int> posFinal) {
     return (difX == 1 && difY == 0) || (difX == 0 && difY == 1) || (difX == 1 && difY == 1);
 }
 
-bool Validador::peao(std::vector<int> posInicial, std::vector<int> posFinal, int indiceJogada) {
+bool Validador::peao(std::vector<int> posInicial, std::vector<int> posFinal, int indiceJogada, bool captura) {
     //Nesse caso, importa se é positivo ou negativo, e os índices do tabuleiro começam ao contrário (de cima pra baixo)
     int difY = std::abs(posFinal[0] - posInicial[0]);
     int difX = std::abs(posFinal[1] - posInicial[1]);
@@ -51,6 +51,11 @@ bool Validador::peao(std::vector<int> posInicial, std::vector<int> posFinal, int
         return difX == 0 && (difY == 1 || difY == 2);
     }
 
-    //Uma casa para frente ou uma casa diagonal
-    return (difY == 1) || (difX == 1 && difY == 1);
+    //Uma casa diagonal em captura
+    if (captura) {
+        return difX == 1 && difY == 1;
+    }
+
+    //Uma casa para frente nos outros casos
+    return difY == 1 && difX == 0;
 }

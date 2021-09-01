@@ -264,7 +264,7 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
     destino = jogada.substr(posInicio, 2);
 
     //Move um tipo de peça de um jogador específico para o destino encontrado
-    _moverPeca(jogador, peca, destino, colunaOrigem);
+    _moverPeca(jogador, peca, destino, colunaOrigem, captura);
 }
 
 void Partida::_moverRoque(int jogador, std::string jogada) {
@@ -311,7 +311,7 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
     }
 }
 
-void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std::string colunaOrigem) {
+void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std::string colunaOrigem, bool captura) {
     std::string pecaAtual, colunas = "abcdefgh";
     std::vector<int> posInicial;
     int indiceOrigem;
@@ -356,7 +356,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
                 continue;
             if (peca == "K" && !Validador::rei(posInicial, posFinal))
                 continue;
-            if (peca == "P" && !Validador::peao(posInicial, posFinal, _jogadaAtual))
+            if (peca == "P" && !Validador::peao(posInicial, posFinal, _jogadaAtual, captura))
                 continue;
 
             //Com a peça certa encontrada na posição (i, j)
