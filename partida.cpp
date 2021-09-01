@@ -212,11 +212,16 @@ void Partida::proximaJogada() {
     //Separa as jogadas em branco e preto
     int posMeio = jogada.find(" ");
     std::string jogadaBranco = jogada.substr(0, posMeio);
-    std::string jogadaPreto = jogada.substr(posMeio + 1);
+    _aplicarJogada(BRANCO, jogadaBranco);
+
+    try {
+        std::string jogadaPreto = jogada.substr(posMeio + 1);
+        _aplicarJogada(PRETO, jogadaPreto);
+    } catch (std::out_of_range) {
+        std::cout << "nao há jogada do preto" << std::endl;
+    }
 
     //Aplica as jogadas de cada jogador
-    _aplicarJogada(BRANCO, jogadaBranco);
-    _aplicarJogada(PRETO, jogadaPreto);
 }
 
 void Partida::_aplicarJogada(int jogador, std::string jogada) {
