@@ -44,9 +44,9 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
         std::cout << "[" << numLinha << "] |";
 
         //Iteração das colunas em cada linha
-        for (int j = 0; j < tabuleiro[i].size(); j++) {
+        for (auto coluna : tabuleiro[i]) {
             //Elemento do quadrado ou espaço vazio, espaçamento e borda direita
-            std::cout << "   " << (tabuleiro[i][j].length() > 0 ? tabuleiro[i][j] : " ") << "   |";
+            std::cout << "   " << (coluna.length() > 0 ? coluna : " ") << "   |";
         }
 
         std::cout << " [" << numLinha << "]\n";
@@ -62,14 +62,14 @@ void Interface::imprimirCapturados(std::vector<std::vector<std::string>> captura
     std::vector<std::string> branco = capturados[0], preto = capturados[1];
 
     std::cout << "Capturados Branco: ";
-    for (int i = 0; i < branco.size(); i++) {
-        std::cout << branco[i] << " ";
+    for (auto peca : branco) {
+        std::cout << peca << " ";
     }
     std::cout << std::endl;
 
     std::cout << "Capturados Preto: ";
-    for (int i = 0; i < preto.size(); i++) {
-        std::cout << preto[i] << " ";
+    for (auto peca : preto) {
+        std::cout << peca << " ";
     }
     std::cout << std::endl;
 }
