@@ -45,7 +45,7 @@ class Partida {
     void _aplicarJogada(int jogador, std::string Jogada);
 
     //Encontra uma peça do tipo adequada e a move para o destino
-    void _moverPeca(int jogador, std::string peca, std::string destino);
+    void _moverPeca(int jogador, std::string peca, std::string destino, std::string colunaOrigem);
 
     //Executa a jogada especial roque (castling)
     void _moverRoque(int jogador, std::string jogada);

@@ -214,13 +214,13 @@ void Partida::proximaJogada() {
     std::string jogadaBranco = jogada.substr(0, posMeio);
     std::string jogadaPreto = jogada.substr(posMeio + 1);
 
-    //Aplica as jogadas no tabuleiro
+    //Aplica as jogadas de cada jogador
     _aplicarJogada(BRANCO, jogadaBranco);
     _aplicarJogada(PRETO, jogadaPreto);
 }
 
 void Partida::_aplicarJogada(int jogador, std::string jogada) {
-    std::string peca, destino;
+    std::string peca, destino, colunaOrigem = "";
     int posInicio;
 
     //Extrai a letra da peça da jogada no índice 0
@@ -248,11 +248,18 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
     //Se houve, a posição da coordenada aumenta em 1
     if (captura) ++posInicio;
 
+    //Caso de ambiguidade (coluna de origem informada na jogada)
+    //Se o char na posição seguinte a de posInicio não for numérico, atribui a coluna de origem e incrementa posInicio
+    if (!std::isdigit(jogada[posInicio + 1])) {
+        colunaOrigem = jogada[posInicio];
+        ++posInicio;
+    }
+
     //Extrai a coordenada algébrica do destino da peça
     destino = jogada.substr(posInicio, 2);
 
     //Move um tipo de peça de um jogador específico para o destino encontrado
-    _moverPeca(jogador, peca, destino);
+    _moverPeca(jogador, peca, destino, colunaOrigem);
 }
 
 void Partida::_moverRoque(int jogador, std::string jogada) {
@@ -299,9 +306,12 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
     }
 }
 
-void Partida::_moverPeca(int jogador, std::string peca, std::string destino) {
-    std::string pecaAtual;
+void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std::string colunaOrigem) {
+    std::string pecaAtual, colunas = "abcdefgh";
     std::vector<int> posInicial;
+    int indiceOrigem;
+
+    std::cout << "coluna origem = " << colunaOrigem << std::endl;
 
     std::cout << "Movendo " << _pecas[peca] << " "
               << ((jogador == BRANCO) ? "branco" : "preto")
@@ -315,6 +325,14 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino) {
         for (int j = 0; j < _tabuleiro[i].size(); j++) {
             pecaAtual = _tabuleiro[i][j];
             posInicial = {i, j};
+
+            //Avança para a próxima iteração se a coluna de origem for informada e a atual não for ela
+            if (colunaOrigem.length() > 0) {
+                indiceOrigem = colunas.find(colunaOrigem);
+                if (indiceOrigem >= 0 && j != indiceOrigem) {
+                    continue;
+                }
+            }
 
             //Avança para a próxima iteração se a peça for do outro jogador
             if ((jogador == BRANCO && std::islower(pecaAtual[0])) || (jogador == PRETO && std::isupper(pecaAtual[0]))) continue;
