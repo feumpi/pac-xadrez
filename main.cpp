@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
         partida.proximaJogada();
 
         interface.imprimirTabuleiro(partida.getTabuleiro());
+        interface.imprimirCapturados(partida.getCapturados());
 
         std::cout << "\nENTER: próxima jogada" << std::endl;
         std::cin.ignore();

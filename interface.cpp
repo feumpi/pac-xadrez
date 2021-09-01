@@ -57,3 +57,19 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
     std::cout << T_LINHA_LETRAS;
     std::cout << std::endl;
 }
+
+void Interface::imprimirCapturados(std::vector<std::vector<std::string>> capturados) {
+    std::vector<std::string> branco = capturados[0], preto = capturados[1];
+
+    std::cout << "Capturados Branco: ";
+    for (int i = 0; i < branco.size(); i++) {
+        std::cout << branco[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Capturados Preto: ";
+    for (int i = 0; i < preto.size(); i++) {
+        std::cout << preto[i] << " ";
+    }
+    std::cout << std::endl;
+}

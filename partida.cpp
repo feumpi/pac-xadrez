@@ -137,6 +137,10 @@ std::vector<std::vector<std::string>> Partida::getTabuleiro() {
     return _tabuleiro;
 }
 
+std::vector<std::vector<std::string>> Partida::getCapturados() {
+    return {_capturadosBranco, _capturadosPreto};
+}
+
 bool Partida::getAcabou() {
     return _acabou;
 }
@@ -207,7 +211,7 @@ void Partida::proximaJogada() {
     }
 
     std::string jogada = _jogo.getJogada(_jogadaAtual);
-    std::cout << "Próxima jogada: " << jogada << std::endl;
+    std::cout << "Jogada #" << _jogadaAtual + 1 << ": " << jogada << std::endl;
 
     //Separa as jogadas em branco e preto
     int posMeio = jogada.find(" ");
@@ -312,11 +316,9 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
 }
 
 void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std::string colunaOrigem, bool captura) {
-    std::string pecaAtual, colunas = "abcdefgh";
+    std::string pecaAtual, pecaCapturada, colunas = "abcdefgh";
     std::vector<int> posInicial;
     int indiceOrigem;
-
-    std::cout << "coluna origem = " << colunaOrigem << std::endl;
 
     std::cout << "Movendo " << _pecas[peca] << " "
               << ((jogador == BRANCO) ? "branco" : "preto")
@@ -365,6 +367,16 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
 
             //Muda a peça para uma letra minúscula se for do preto
             if (jogador == PRETO) peca[0] = std::tolower(peca[0]);
+
+            //Registra a captura da peça na posição final (para o jogador contrário), se houver
+            if (captura) {
+                pecaCapturada = _tabuleiro[posFinal[0]][posFinal[1]];
+                jogador == BRANCO ? _capturadosPreto.push_back(pecaCapturada) : _capturadosBranco.push_back(pecaCapturada);
+
+                //Imprime a captura
+                pecaCapturada = std::toupper(pecaCapturada[0]);
+                std::cout << _pecas[pecaCapturada] << " " << (jogador == BRANCO ? "preto" : "branco") << " capturado" << std::endl;
+            }
 
             //Adiciona a peça na nova posição
             _tabuleiro[posFinal[0]][posFinal[1]] = peca;

@@ -20,11 +20,14 @@ class Interface {
     //Exibe uma mensagem de encerramento ao fim do programa
     ~Interface();
 
+    //Imprime as informações sobre um jogo
+    void imprimirJogo(Jogo jogo);
+
     //Recebe uma matriz de string representando o tabuleiro e a imprime usando caracteres ASCII
     void imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda = false);
 
-    //Imprime as informações sobre um jogo
-    void imprimirJogo(Jogo jogo);
+    //Imprime as peças capturadas dos dois jogadores
+    void imprimirCapturados(std::vector<std::vector<std::string>> capturados);
 };
 
 #endif
