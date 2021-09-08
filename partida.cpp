@@ -400,7 +400,7 @@ std::vector<int> Partida::_encontrarIndices(std::string coordenada) {
 
 bool Partida::_caminhoLivre(std::vector<int> posInicial, std::vector<int> posFinal) {
     //Movimento não horizontal não implementado
-    if (posInicial[0] != posFinal[0]) return false;
+    if (posInicial[0] != posFinal[0]) return true;
 
     //Linha a ser avaliada no tabuleiro
     std::vector<std::string> linha = _tabuleiro[posInicial[0]];
