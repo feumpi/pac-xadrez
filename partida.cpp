@@ -383,8 +383,9 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
                 std::cout << _pecas[pecaCapturada] << " " << (jogador == BRANCO ? "preto" : "branco") << " capturado" << std::endl;
             }
 
-            //Adiciona a peça na nova posição
+            //Adiciona a peça na nova posição e encerra a iteração
             _tabuleiro[posFinal[0]][posFinal[1]] = peca;
+            return;
         }
     }
 }
