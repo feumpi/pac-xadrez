@@ -348,7 +348,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
             if (std::toupper(pecaAtual[0]) != peca[0]) continue;
 
             //Avança para a próxima iteração se o movimento for inválido
-            if (peca == "R" && !Validador::torre(posInicial, posFinal))
+            if (peca == "R" && (!Validador::torre(posInicial, posFinal) || !_caminhoLivre(posInicial, posFinal)))
                 continue;
             if (peca == "N" && !Validador::cavalo(posInicial, posFinal))
                 continue;
@@ -396,4 +396,32 @@ std::vector<int> Partida::_encontrarIndices(std::string coordenada) {
     int coluna = colunas.find(colunaStr), linha = linhas.find(linhaStr);
 
     return {linha, coluna};
+}
+
+bool Partida::_caminhoLivre(std::vector<int> posInicial, std::vector<int> posFinal) {
+    //Movimento não horizontal não implementado
+    if (posInicial[0] != posFinal[0]) return false;
+
+    //Linha a ser avaliada no tabuleiro
+    std::vector<std::string> linha = _tabuleiro[posInicial[0]];
+
+    //Movimento horizontal para direita
+    if (posFinal[1] > posInicial[1]) {
+        //Itera a linha do tabuleiro entre o y inicial e final (intervalo aberto)
+        for (int i = posInicial[1] + 1; i < posFinal[1]; i++) {
+            //Se a posição não estiver vazia, o caminho não está livre
+            if (linha[i].length() > 0) return false;
+        }
+    }
+    //Movimento horizontal para esquerda
+    else {
+        //Itera a linha do tabuleiro entre o y inicial e final (intervalo aberto)
+        for (int i = posFinal[1] - 1; i > posInicial[1]; i--) {
+            //Se a posição não estiver vazia, o caminho não está livre
+            if (linha[i].length() > 0) return false;
+        }
+    }
+
+    //Se nenhuma peça foi encontrada, o caminho está livre
+    return true;
 }

@@ -55,6 +55,9 @@ class Partida {
 
     //Recebe uma coordenada algébrica e retorna um vetor dos índices correspondentes no tabuleiro
     std::vector<int> _encontrarIndices(std::string coordenada);
+
+    //Verifica se o caminho entre a posInicial e posFinal está livre de peças (horizontalmente, a princípio)
+    bool _caminhoLivre(std::vector<int> posInicial, std::vector<int> posFinal);
 };
 
 #endif
