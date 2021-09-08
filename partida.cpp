@@ -358,8 +358,13 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
                 continue;
             if (peca == "K" && !Validador::rei(posInicial, posFinal))
                 continue;
-            if (peca == "P" && !Validador::peao(posInicial, posFinal, _jogadaAtual, captura))
-                continue;
+            if (peca == "P") {
+                //Verifica se a linha do peão é a inicial (primeira jogada da peça)
+                bool primeiraJogada = (posInicial[0] == 1 && jogador == PRETO) || (posInicial[0] == 6 && jogador == BRANCO);
+
+                if (!Validador::peao(posInicial, posFinal, primeiraJogada, captura))
+                    continue;
+            }
 
             //Com a peça certa encontrada na posição (i, j)
             //Remove a peça do quadrado atual
