@@ -259,8 +259,9 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Caso de ambiguidade (coluna de origem informada na jogada)
     //Se o char na posição seguinte a de posInicio não for numérico, atribui a coluna de origem e incrementa posInicio
+    //Se houver captura, a coluna origem está em posInicio - 1
     if (!std::isdigit(jogada[posInicio + 1])) {
-        colunaOrigem = jogada[posInicio];
+        colunaOrigem = captura ? jogada[posInicio - 1] : jogada[posInicio];
         ++posInicio;
     }
 
@@ -362,7 +363,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
                 //Verifica se a linha do peão é a inicial (primeira jogada da peça)
                 bool primeiraJogada = (posInicial[0] == 1 && jogador == PRETO) || (posInicial[0] == 6 && jogador == BRANCO);
 
-                if (!Validador::peao(posInicial, posFinal, primeiraJogada, captura))
+                if (!Validador::peao(posInicial, posFinal, jogador, primeiraJogada, captura))
                     continue;
             }
 
