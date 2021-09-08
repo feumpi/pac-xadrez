@@ -46,18 +46,17 @@ bool Validador::peao(std::vector<int> posInicial, std::vector<int> posFinal, int
     int difX = std::abs(posFinal[1] - posInicial[1]);
 
     //Se for branco, corrige o movimento negativo (para cima). Se for preto, não é necessário corrigir
-    if (jogador == BRANCO)
-        difY *= -1;
+    if (jogador == BRANCO) difY *= -1;
+
+    //Uma casa diagonal em captura
+    if (captura) {
+        return difX == 1 && difY == 1;
+    }
 
     //Primeira jogada
     if (primeiraJogada) {
         //Uma ou duas casas para frente
         return difX == 0 && (difY == 1 || difY == 2);
-    }
-
-    //Uma casa diagonal em captura
-    if (captura) {
-        return difX == 1 && difY == 1;
     }
 
     //Uma casa para frente nos outros casos
