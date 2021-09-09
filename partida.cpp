@@ -270,6 +270,11 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Move um tipo de peça de um jogador específico para o destino encontrado
     _moverPeca(jogador, peca, destino, colunaOrigem, captura);
+
+    //Verifica e imprime se houve xeque
+    if (jogada.find("+") != -1) {
+        std::cout << "Rei " << (jogador == BRANCO ? "preto" : "branco") << " está em xeque!" << std::endl;
+    }
 }
 
 void Partida::_moverRoque(int jogador, std::string jogada) {
