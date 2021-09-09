@@ -1,6 +1,7 @@
 #ifndef JOGO_H
 #define JOGO_H
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -29,6 +30,21 @@ class Jogo {
     std::string _preto;
     std::string _resultado;
     std::vector<std::string> _jogadas;
+    std::map<std::string, std::string> _meses = {{"01", "janeiro"},
+                                                 {"02", "fevereiro"},
+                                                 {"03", "março"},
+                                                 {"04", "abril"},
+                                                 {"05", "maio"},
+                                                 {"06", "junho"},
+                                                 {"07", "julho"},
+                                                 {"08", "agosto"},
+                                                 {"09", "setembro"},
+                                                 {"10", "outubro"},
+                                                 {"11", "novembro"},
+                                                 {"12", "dezembro"}};
+
+    std::string
+    _formatarNome(std::string nome);
 };
 
 #endif
