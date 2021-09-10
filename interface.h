@@ -28,6 +28,9 @@ class Interface {
 
     //Imprime as peças capturadas dos dois jogadores
     void imprimirCapturados(std::vector<std::vector<std::string>> capturados);
+
+    //Imprime o resultado e estatísticas do jogo
+    void imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto);
 };
 
 #endif

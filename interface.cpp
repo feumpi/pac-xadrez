@@ -65,3 +65,17 @@ void Interface::imprimirCapturados(std::vector<std::vector<std::string>> captura
     }
     std::cout << std::endl;
 }
+
+void Interface::imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto) {
+    std::cout << "\n\n"
+              << "###############################\n"
+              << "#                             #\n"
+              << "#         FIM DO JOGO         #\n"
+              << "#                             #\n"
+              << "###############################\n\n"
+              << "Resultado: " << resultado << "\n\n"
+              << jogadas << " jogadas foram executadas\n"
+              << capturadosBranco << " peças brancas foram capturadas\n"
+              << capturadosBranco << " peças pretas foram capturadas\n"
+              << std::endl;
+}

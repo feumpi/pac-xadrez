@@ -56,5 +56,7 @@ int main(int argc, char *argv[]) {
         std::cin.ignore();
     }
 
+    interface.imprimirResultado(partida.getJogo().getResultado(), partida.getJogo().getJogadas().size(), partida.getCapturados()[0].size(), partida.getCapturados()[1].size());
+
     return 0;
 }
