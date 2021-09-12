@@ -30,10 +30,14 @@ class Interface {
     //Imprime as peças capturadas dos dois jogadores
     void imprimirCapturados(std::vector<std::vector<std::string>> capturados);
 
-    static void imprimirInformacao(std::string texto);
+    void imprimirInformacao(std::string texto);
 
     //Imprime o resultado e estatísticas do jogo
     void imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto);
+
+   private:
+    WINDOW* _janelaPadrao;
+    WINDOW* _janelaInformacoes;
 };
 
 #endif

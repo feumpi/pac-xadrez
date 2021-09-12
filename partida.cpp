@@ -2,10 +2,12 @@
 
 #include <iostream>
 
-Partida::Partida(std::string nomeArquivo) {
+Partida::Partida(std::string nomeArquivo, Interface* interface) {
     std::ifstream arquivo;
     std::string linha, evento, local, data, rodada, branco, preto, resultado;
     std::vector<std::string> jogadas;
+
+    _interface = interface;
 
     arquivo.open(nomeArquivo);
 
@@ -273,7 +275,7 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Verifica e imprime se houve xeque
     if (jogada.find("+") != -1) {
-        Interface::imprimirInformacao("Rei " + std::string(jogador == BRANCO ? "preto" : "branco") + " está em xeque!");
+        _interface->imprimirInformacao("Rei " + std::string(jogador == BRANCO ? "preto" : "branco") + " está em xeque!");
     }
 }
 
@@ -296,7 +298,7 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
         _tabuleiro[posTorre[0]][posTorre[1]] = "";
         _tabuleiro[posTorre[0]][posTorre[1] + 3] = jogador == BRANCO ? "R" : "r";
 
-        Interface::imprimirInformacao("Movimento roque do " + std::string(jogador == BRANCO ? "branco" : "preto") + "para a esquerda");
+        _interface->imprimirInformacao("Movimento roque do " + std::string(jogador == BRANCO ? "branco" : "preto") + "para a esquerda");
 
     }
 
@@ -324,7 +326,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
     std::vector<int> posInicial;
     int indiceOrigem;
 
-    Interface::imprimirInformacao("Movendo " + _pecas[peca] + " " + std::string(((jogador == BRANCO) ? "branco" : "preto")) + " para " + destino);
+    _interface->imprimirInformacao("Movendo " + _pecas[peca] + " " + std::string(((jogador == BRANCO) ? "branco" : "preto")) + " para " + destino);
 
     //Encontra os índices i,j do destino na matriz do tabuleiro a partir da coordenada algébrica (e1 -> linha 0, coluna 4)
     std::vector<int> posFinal = _encontrarIndices(destino);
@@ -382,7 +384,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
 
                 //Imprime a captura
                 pecaCapturada = std::toupper(pecaCapturada[0]);
-                Interface::imprimirInformacao(_pecas[pecaCapturada] + " " + std::string((jogador == BRANCO ? "preto" : "branco")) + " capturado");
+                _interface->imprimirInformacao(_pecas[pecaCapturada] + " " + std::string((jogador == BRANCO ? "preto" : "branco")) + " capturado");
             }
 
             //Adiciona a peça na nova posição e encerra a iteração

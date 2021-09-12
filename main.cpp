@@ -35,11 +35,12 @@ int main(int argc, char *argv[]) {
         std::cin.ignore();
     }
 
-    //Inicializa a partida com o nome do arquivo a ser lido
-    Partida partida(nomeArquivo);
-
     //Inicializa a interface, imprime os dados do jogo e o tabuleiro inicial com legenda
     Interface interface;
+
+    //Inicializa a partida com o nome do arquivo a ser lido
+    Partida partida(nomeArquivo, &interface);
+
     interface.imprimirJogo(partida.getJogo());
 
     printw("\nOPÇÕES: [ENTER] começar | [q] sair");

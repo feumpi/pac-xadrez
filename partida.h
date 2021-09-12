@@ -20,7 +20,7 @@
 class Partida {
    public:
     //Inicializa o objeto carregando o arquivo informado
-    Partida(std::string nomeArquivo);
+    Partida(std::string nomeArquivo, Interface* interface);
 
     //Getters
     Jogo getJogo();
@@ -33,6 +33,7 @@ class Partida {
 
    private:
     Jogo _jogo{};
+    Interface* _interface;
     std::vector<std::vector<std::string>> _tabuleiro;
 
     int _jogadaAtual = -1;
