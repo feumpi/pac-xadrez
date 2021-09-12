@@ -1,6 +1,8 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+#include <ncurses.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,7 +13,6 @@
 #define T_LINHA_VAZIA "    |       |       |       |       |       |       |       |       |\n"
 
 #include "jogo.h"
-
 class Interface {
    public:
     //Exibe uma mensagem de boas-vindas ao inicializar

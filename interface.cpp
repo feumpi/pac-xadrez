@@ -1,11 +1,21 @@
 #include "interface.h"
 
 Interface::Interface() {
-    std::cout << "Bem-vindo!" << std::endl;
+    initscr();
+    curs_set(0);
+    noecho();
+    while (1) {
+        int entrada = getch();
+        if (entrada == 'q') {
+            endwin();
+            exit(1);
+        }
+    }
 };
 
 Interface::~Interface() {
     std::cout << "Obrigado por usar o programa!" << std::endl;
+    endwin();
 }
 
 void Interface::imprimirJogo(Jogo jogo) {

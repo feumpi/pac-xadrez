@@ -12,16 +12,22 @@
 
 # Como utilizar este programa
 
-Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp**, criando um executável **main.sh**:
+Installe o pacote `libncurses-dev`, necessário para compilar a biblioteca `ncurses.h`:
 
 ```bash
-> g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp -o main.sh
+sudo apt install libncurses-dev
+```
+
+Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp** e a biblioteca **ncurses**, criando um executável **main.sh**:
+
+```bash
+> g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp -lncurses -o main.sh
 ```
 
 Ou usando um atalho para incluir todos os arquivos **.cpp** do diretório:
 
 ```bash
-> g++ *.cpp -o main.sh
+> g++ *.cpp -lncurses -o main.sh
 ```
 
 Execute o arquivo **main.sh** criado no passo anterior
