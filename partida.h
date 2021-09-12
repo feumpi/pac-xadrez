@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "interface.h"
 #include "jogo.h"
 #include "validador.h"
 

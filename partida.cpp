@@ -273,7 +273,7 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Verifica e imprime se houve xeque
     if (jogada.find("+") != -1) {
-        printw("Rei %s está em xeque!\n", (jogador == BRANCO ? "preto" : "branco"));
+        Interface::imprimirInformacao("Rei " + std::string(jogador == BRANCO ? "preto" : "branco") + " está em xeque!");
     }
 }
 
@@ -296,7 +296,7 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
         _tabuleiro[posTorre[0]][posTorre[1]] = "";
         _tabuleiro[posTorre[0]][posTorre[1] + 3] = jogador == BRANCO ? "R" : "r";
 
-        printw("Movimento roque do %s para a esquerda\n", (jogador == BRANCO) ? "branco" : "preto");
+        Interface::imprimirInformacao("Movimento roque do " + std::string(jogador == BRANCO ? "branco" : "preto") + "para a esquerda");
 
     }
 
@@ -324,7 +324,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
     std::vector<int> posInicial;
     int indiceOrigem;
 
-    printw("Movendo %s %s para %s\n", _pecas[peca].c_str(), ((jogador == BRANCO) ? "branco" : "preto"), destino.c_str());
+    Interface::imprimirInformacao("Movendo " + _pecas[peca] + " " + std::string(((jogador == BRANCO) ? "branco" : "preto")) + " para " + destino);
 
     //Encontra os índices i,j do destino na matriz do tabuleiro a partir da coordenada algébrica (e1 -> linha 0, coluna 4)
     std::vector<int> posFinal = _encontrarIndices(destino);
@@ -382,7 +382,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
 
                 //Imprime a captura
                 pecaCapturada = std::toupper(pecaCapturada[0]);
-                printw("%s %s capturado\n", _pecas[pecaCapturada].c_str(), (jogador == BRANCO ? "preto" : "branco"));
+                Interface::imprimirInformacao(_pecas[pecaCapturada] + " " + std::string((jogador == BRANCO ? "preto" : "branco")) + " capturado");
             }
 
             //Adiciona a peça na nova posição e encerra a iteração

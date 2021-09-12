@@ -75,6 +75,10 @@ void Interface::imprimirCapturados(std::vector<std::vector<std::string>> captura
     printw("\n");
 }
 
+void Interface::imprimirInformacao(std::string texto) {
+    printw("%s\n", texto.c_str());
+}
+
 void Interface::imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto) {
     printw("\n\n");
     printw("###############################\n");
