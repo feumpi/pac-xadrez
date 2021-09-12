@@ -41,19 +41,48 @@ int main(int argc, char *argv[]) {
     //Inicializa a interface, imprime os dados do jogo e o tabuleiro inicial com legenda
     Interface interface;
     interface.imprimirJogo(partida.getJogo());
+
+    printw("\nOPÇÕES: [ENTER] começar | [q] sair");
+
+    while (1) {
+        int entrada = getch();
+        if (entrada == '\n') break;
+        if (entrada == 'q') {
+            endwin();
+            exit(1);
+        }
+    }
+
+    clear();
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
 
-    std::cout << "\nENTER: começar" << std::endl;
-    std::cin.ignore();
+    printw("\nOPÇÕES: [ENTER] primeira jogada | [q] sair");
+
+    while (1) {
+        int entrada = getch();
+        if (entrada == '\n') break;
+        if (entrada == 'q') {
+            endwin();
+            exit(1);
+        }
+    }
 
     while (!partida.getAcabou()) {
+        clear();
         partida.proximaJogada();
-
         interface.imprimirTabuleiro(partida.getTabuleiro());
         interface.imprimirCapturados(partida.getCapturados());
 
-        std::cout << "\nENTER: próxima jogada" << std::endl;
-        std::cin.ignore();
+        printw("\nOPÇÕES: [ENTER] próxima jogada | [q] sair");
+
+        while (1) {
+            int entrada = getch();
+            if (entrada == '\n') break;
+            if (entrada == 'q') {
+                endwin();
+                exit(1);
+            }
+        }
     }
 
     interface.imprimirResultado(partida.getJogo().getResultado(), partida.getJogo().getJogadas().size(), partida.getCapturados()[0].size(), partida.getCapturados()[1].size());

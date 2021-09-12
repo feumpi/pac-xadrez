@@ -4,88 +4,87 @@ Interface::Interface() {
     initscr();
     curs_set(0);
     noecho();
-    while (1) {
-        int entrada = getch();
-        if (entrada == 'q') {
-            endwin();
-            exit(1);
-        }
-    }
+
+    printw("################################\n");
+    printw("#                              #\n");
+    printw("#          PAC XADREZ          #\n");
+    printw("#                              #\n");
+    printw("################################\n");
+    printw("Bem-vindo!\n\n");
 };
 
 Interface::~Interface() {
-    std::cout << "Obrigado por usar o programa!" << std::endl;
+    printw("Obrigado por usar o programa!\n");
     endwin();
 }
 
 void Interface::imprimirJogo(Jogo jogo) {
     //Obtém e imprime cada um dos dados extras
-    std::cout << "Evento: " << jogo.getEvento() << std::endl;
-    std::cout << "Local: " << jogo.getLocal() << std::endl;
-    std::cout << "Data: " << jogo.getData() << std::endl;
-    std::cout << "Rodada: " << jogo.getRodada() << std::endl;
-    std::cout << "Branco: " << jogo.getBranco() << std::endl;
-    std::cout << "Preto: " << jogo.getPreto() << std::endl;
-    std::cout << "Resultado: " << jogo.getResultado() << std::endl;
+    printw("Evento: %s\n", jogo.getEvento().c_str());
+    printw("Local: %s\n", jogo.getLocal().c_str());
+    printw("Data: %s\n", jogo.getData().c_str());
+    printw("Rodada: %s\n", jogo.getRodada().c_str());
+    printw("Branco: %s\n", jogo.getBranco().c_str());
+    printw("Preto: %s\n", jogo.getPreto().c_str());
+    printw("Resultado: %s\n", jogo.getResultado().c_str());
 }
 
 void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda) {
-    std::cout << std::endl;
     int numLinha;
 
-    if (legenda) std::cout << T_LEGENDA;
+    if (legenda) printw(T_LEGENDA);
 
-    std::cout << T_LINHA_LETRAS;
-    std::cout << T_BORDA_HORIZONTAL;
+    printw(T_LINHA_LETRAS);
+    printw(T_BORDA_HORIZONTAL);
 
     //Iteração das linhas
     for (int i = 0; i < tabuleiro.size(); i++) {
-        std::cout << T_LINHA_VAZIA;
+        printw(T_LINHA_VAZIA);
         //Imprime o número da linha, de 8 a 1, e a borda esquerda
         numLinha = 8 - i;
-        std::cout << "[" << numLinha << "] |";
+        printw("[%d] |", numLinha);
 
         //Iteração das colunas em cada linha
         for (auto coluna : tabuleiro[i]) {
             //Elemento do quadrado ou espaço vazio, espaçamento e borda direita
-            std::cout << "   " << (coluna.length() > 0 ? coluna : " ") << "   |";
+            printw("   %s   |", (coluna.length() > 0 ? coluna.c_str() : " "));
         }
 
-        std::cout << " [" << numLinha << "]\n";
-        std::cout << T_LINHA_VAZIA;
-        std::cout << T_BORDA_HORIZONTAL;
+        printw("[%d]\n", numLinha);
+        printw(T_LINHA_VAZIA);
+        printw(T_BORDA_HORIZONTAL);
     }
 
-    std::cout << T_LINHA_LETRAS;
-    std::cout << std::endl;
+    printw(T_LINHA_LETRAS);
+    printw("\n");
 }
 
 void Interface::imprimirCapturados(std::vector<std::vector<std::string>> capturados) {
     std::vector<std::string> branco = capturados[0], preto = capturados[1];
 
-    std::cout << "Capturados Branco: ";
+    printw("Capturados Branco: ");
     for (auto peca : branco) {
-        std::cout << peca << " ";
+        printw("%s ", peca.c_str());
     }
-    std::cout << std::endl;
+    printw("\n");
 
-    std::cout << "Capturados Preto: ";
+    printw("Capturados Preto: ");
     for (auto peca : preto) {
-        std::cout << peca << " ";
+        printw("%s ", peca.c_str());
     }
-    std::cout << std::endl;
+    printw("\n");
 }
 
 void Interface::imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto) {
-    std::cout << "\n\n"
-              << "###############################\n"
-              << "#                             #\n"
-              << "#         FIM DO JOGO         #\n"
-              << "#                             #\n"
-              << "###############################\n\n"
-              << "Resultado: " << resultado << "\n\n"
-              << jogadas << " jogadas foram executadas\n"
-              << capturadosBranco << " peças brancas foram capturadas\n"
-              << capturadosBranco << " peças pretas foram capturadas\n"
-              << std::endl;
+    printw("\n\n");
+    printw("###############################\n");
+    printw("#                             #\n");
+    printw("#         FIM DO JOGO         #\n");
+    printw("#                             #\n");
+    printw("###############################\n\n");
+    printw("Resultado: %s\n\n", resultado);
+    printw("%d jogadas foram executadas\n", jogadas);
+    printw("%d peças brancas foram capturadas\n", capturadosBranco);
+    printw("%d peças pretas foram capturadas\n", capturadosPreto);
+    printw("\n");
 }

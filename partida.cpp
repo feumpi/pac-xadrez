@@ -125,7 +125,7 @@ Partida::Partida(std::string nomeArquivo) {
         _pecas = {{"R", "torre"}, {"N", "cavalo"}, {"B", "bispo"}, {"Q", "dama"}, {"K", "rei"}, {"P", "peão"}};
 
     } else {
-        std::cout << "Não foi possível abrir o arquivo." << std::endl;
+        printw("Não foi possível abrir o arquivo.\n");
         exit(-1);
     }
 }
@@ -206,12 +206,12 @@ void Partida::proximaJogada() {
 
     if (_jogadaAtual >= _jogo.getJogadas().size()) {
         _acabou = true;
-        std::cout << "fim das jogadas" << std::endl;
+        printw("fim das jogadas\n");
         return;
     }
 
     std::string jogada = _jogo.getJogada(_jogadaAtual);
-    std::cout << "Jogada #" << _jogadaAtual + 1 << ": " << jogada << std::endl;
+    printw("Jogada #%d: %s\n", _jogadaAtual + 1, jogada.c_str());
 
     //Separa as jogadas em branco e preto
     int posMeio = jogada.find(" ");
@@ -273,7 +273,7 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Verifica e imprime se houve xeque
     if (jogada.find("+") != -1) {
-        std::cout << "Rei " << (jogador == BRANCO ? "preto" : "branco") << " está em xeque!" << std::endl;
+        printw("Rei %s está em xeque!\n", (jogador == BRANCO ? "preto" : "branco"));
     }
 }
 
@@ -296,9 +296,7 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
         _tabuleiro[posTorre[0]][posTorre[1]] = "";
         _tabuleiro[posTorre[0]][posTorre[1] + 3] = jogador == BRANCO ? "R" : "r";
 
-        std::cout << "Movimento roque do "
-                  << ((jogador == BRANCO) ? "branco" : "preto")
-                  << " para a esquerda" << std::endl;
+        printw("Movimento roque do %s para a esquerda\n", (jogador == BRANCO) ? "branco" : "preto");
 
     }
 
@@ -326,9 +324,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
     std::vector<int> posInicial;
     int indiceOrigem;
 
-    std::cout << "Movendo " << _pecas[peca] << " "
-              << ((jogador == BRANCO) ? "branco" : "preto")
-              << " para " << destino << std::endl;
+    printw("Movendo %s %s para %s\n", _pecas[peca].c_str(), ((jogador == BRANCO) ? "branco" : "preto"), destino.c_str());
 
     //Encontra os índices i,j do destino na matriz do tabuleiro a partir da coordenada algébrica (e1 -> linha 0, coluna 4)
     std::vector<int> posFinal = _encontrarIndices(destino);
@@ -386,7 +382,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
 
                 //Imprime a captura
                 pecaCapturada = std::toupper(pecaCapturada[0]);
-                std::cout << _pecas[pecaCapturada] << " " << (jogador == BRANCO ? "preto" : "branco") << " capturado" << std::endl;
+                printw("%s %s capturado\n", _pecas[pecaCapturada].c_str(), (jogador == BRANCO ? "preto" : "branco"));
             }
 
             //Adiciona a peça na nova posição e encerra a iteração
