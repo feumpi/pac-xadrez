@@ -12,6 +12,9 @@
 #define T_BORDA_HORIZONTAL "    -----------------------------------------------------------------\n"
 #define T_LINHA_VAZIA "    |       |       |       |       |       |       |       |       |\n"
 
+#define ENTRADA_SAIR 0
+#define ENTRADA_CONTINUAR 1
+
 #include "jogo.h"
 class Interface {
    public:
@@ -34,6 +37,8 @@ class Interface {
 
     //Imprime o resultado e estatísticas do jogo
     void imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto);
+
+    int coletarEntrada();
 
    private:
     WINDOW* _janelaPadrao;

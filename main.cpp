@@ -45,13 +45,11 @@ int main(int argc, char *argv[]) {
 
     printw("\nOPÇÕES: [ENTER] começar | [q] sair");
 
-    while (1) {
-        int entrada = getch();
-        if (entrada == '\n') break;
-        if (entrada == 'q') {
-            endwin();
-            exit(1);
-        }
+    int entrada = interface.coletarEntrada();
+
+    if (entrada == ENTRADA_SAIR) {
+        interface.~Interface();
+        exit(1);
     }
 
     clear();
@@ -59,13 +57,11 @@ int main(int argc, char *argv[]) {
 
     printw("\nOPÇÕES: [ENTER] primeira jogada | [q] sair");
 
-    while (1) {
-        int entrada = getch();
-        if (entrada == '\n') break;
-        if (entrada == 'q') {
-            endwin();
-            exit(1);
-        }
+    entrada = interface.coletarEntrada();
+
+    if (entrada == ENTRADA_SAIR) {
+        interface.~Interface();
+        exit(1);
     }
 
     while (!partida.getAcabou()) {
@@ -76,13 +72,11 @@ int main(int argc, char *argv[]) {
 
         printw("\nOPÇÕES: [ENTER] próxima jogada | [q] sair");
 
-        while (1) {
-            int entrada = getch();
-            if (entrada == '\n') break;
-            if (entrada == 'q') {
-                endwin();
-                exit(1);
-            }
+        entrada = interface.coletarEntrada();
+
+        if (entrada == ENTRADA_SAIR) {
+            interface.~Interface();
+            exit(1);
         }
     }
 

@@ -105,3 +105,11 @@ void Interface::imprimirResultado(std::string resultado, int jogadas, int captur
     printw("%d peças pretas foram capturadas\n", capturadosPreto);
     printw("\n");
 }
+
+int Interface::coletarEntrada() {
+    while (1) {
+        int entrada = getch();
+        if (entrada == '\n') return ENTRADA_CONTINUAR;
+        if (entrada == 'q') return ENTRADA_SAIR;
+    }
+}
