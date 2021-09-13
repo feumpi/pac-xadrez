@@ -316,9 +316,7 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
         _tabuleiro[posTorre[0]][posTorre[1]] = "";
         _tabuleiro[posTorre[0]][posTorre[1] - 2] = jogador == BRANCO ? "R" : "r";
 
-        std::cout << "Movimento roque do "
-                  << ((jogador == BRANCO) ? "branco" : "preto")
-                  << " para a direita" << std::endl;
+        _interface->imprimirInformacao("Movimento roque do " + std::string(jogador == BRANCO ? "branco" : "preto") + " para a direita");
     }
 }
 
