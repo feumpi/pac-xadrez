@@ -1,7 +1,11 @@
 #ifndef INTERFACE_H
 #define INTERFACE_H
 
+#ifdef __linux__
 #include <ncurses.h>
+#elif _WIN32
+#include <curses.h>
+#endif
 
 #include <iostream>
 #include <string>
