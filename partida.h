@@ -1,8 +1,6 @@
 #ifndef PARTIDA_H
 #define PARTIDA_H
 
-#include <curses.h>
-
 #include <cctype>
 #include <fstream>
 #include <map>

@@ -40,6 +40,8 @@ make
 
 _ou `mingw32-make`, de acordo com a disponibilidade._
 
+Observe que os arquivos `PDCurses\wincon\curses.h` e `PDCurses\wincon\pdcurses.a` são esperados nesses exatos caminhos, a partir da raiz do programa, para o correto funcionamento.
+
 ## Compilar
 
 **Linux:** Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp** e a biblioteca **ncurses**, criando um executável **main.sh**:
