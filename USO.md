@@ -40,7 +40,7 @@ make
 
 _ou `mingw32-make`, de acordo com a disponibilidade._
 
-Observe que os arquivos `PDCurses\wincon\curses.h` e `PDCurses\wincon\pdcurses.a` são esperados nesses exatos caminhos, a partir da raiz do programa, para o correto funcionamento.
+Observe que os arquivos `PDCurses\curses.h` e `PDCurses\wincon\pdcurses.a` são esperados nesses exatos caminhos, a partir da raiz do programa, para o correto funcionamento.
 
 ## Compilar
 
@@ -56,10 +56,10 @@ Ou usando um atalho para incluir todos os arquivos **.cpp** do diretório:
 > g++ *.cpp -lncurses -o main.sh
 ```
 
-**Windows:** Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp** e a biblioteca **pdcurses**, criando um executável **main.exe**:
+**Windows:** Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp** e a biblioteca **pdcurses.a**, criando um executável **main.exe**:
 
 ```bash
-> g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp pdcurses.a -o main.exe
+> g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp PDCurses\wincon\pdcurses.a -o main.exe
 ```
 
 ## Executar

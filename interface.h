@@ -4,7 +4,7 @@
 #ifdef __linux__
 #include <ncurses.h>
 #elif _WIN32
-#include "PDCurses\wincon\curses.h"
+#include "PDCurses\curses.h"
 #endif
 
 #include <iostream>
