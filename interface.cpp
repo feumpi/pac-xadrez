@@ -103,17 +103,23 @@ void Interface::imprimirInformacao(std::string texto) {
 }
 
 void Interface::imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto) {
-    printw("\n\n");
-    printw("###############################\n");
-    printw("#                             #\n");
-    printw("#         FIM DO JOGO         #\n");
-    printw("#                             #\n");
-    printw("###############################\n\n");
-    printw("Resultado: %s\n\n", resultado);
-    printw("%d jogadas foram executadas\n", jogadas);
-    printw("%d peças brancas foram capturadas\n", capturadosBranco);
-    printw("%d peças pretas foram capturadas\n", capturadosPreto);
-    printw("\n");
+    wclear(_janelaPadrao);
+
+    wprintw(_janelaPadrao, "\n\n");
+    wprintw(_janelaPadrao, "###############################\n");
+    wprintw(_janelaPadrao, "#                             #\n");
+    wprintw(_janelaPadrao, "#         FIM DO JOGO         #\n");
+    wprintw(_janelaPadrao, "#                             #\n");
+    wprintw(_janelaPadrao, "###############################\n\n");
+    wprintw(_janelaPadrao, "Resultado: %s\n\n", resultado.c_str());
+    wprintw(_janelaPadrao, "%d jogadas foram executadas\n", jogadas);
+    wprintw(_janelaPadrao, "%d peças brancas foram capturadas\n", capturadosBranco);
+    wprintw(_janelaPadrao, "%d peças pretas foram capturadas\n", capturadosPreto);
+    wprintw(_janelaPadrao, "\n");
+
+    overwrite(_janelaPadrao, stdscr);
+
+    this->limparInformacoes();
 }
 
 int Interface::coletarEntrada() {

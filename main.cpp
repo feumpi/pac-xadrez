@@ -77,5 +77,12 @@ int main(int argc, char *argv[]) {
 
     interface.imprimirResultado(partida.getJogo().getResultado(), partida.getJogo().getJogadas().size(), partida.getCapturados()[0].size(), partida.getCapturados()[1].size());
 
+    entrada = interface.coletarEntrada();
+
+    if (entrada == ENTRADA_SAIR) {
+        interface.~Interface();
+        exit(1);
+    }
+
     return 0;
 }
