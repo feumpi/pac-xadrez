@@ -43,8 +43,6 @@ int main(int argc, char *argv[]) {
 
     interface.imprimirJogo(partida.getJogo());
 
-    printw("\nOPÇÕES: [ENTER] começar | [q] sair");
-
     int entrada = interface.coletarEntrada();
 
     if (entrada == ENTRADA_SAIR) {
@@ -54,8 +52,6 @@ int main(int argc, char *argv[]) {
 
     clear();
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
-
-    printw("\nOPÇÕES: [ENTER] primeira jogada | [q] sair");
 
     entrada = interface.coletarEntrada();
 
@@ -69,8 +65,6 @@ int main(int argc, char *argv[]) {
         partida.proximaJogada();
         interface.imprimirTabuleiro(partida.getTabuleiro());
         interface.imprimirCapturados(partida.getCapturados());
-
-        printw("\nOPÇÕES: [ENTER] próxima jogada | [q] sair");
 
         entrada = interface.coletarEntrada();
 

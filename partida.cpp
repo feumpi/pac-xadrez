@@ -203,17 +203,18 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
 }
 
 void Partida::proximaJogada() {
+    _interface->limparInformacoes();
+
     //Obtém a string de NAP da próxima jogada
     ++_jogadaAtual;
-
     if (_jogadaAtual >= _jogo.getJogadas().size()) {
         _acabou = true;
-        printw("fim das jogadas\n");
+        _interface->imprimirInformacao("fim das jogadas");
         return;
     }
 
     std::string jogada = _jogo.getJogada(_jogadaAtual);
-    printw("Jogada #%d: %s\n", _jogadaAtual + 1, jogada.c_str());
+    _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual) + std::string(": ") + jogada);
 
     //Separa as jogadas em branco e preto
     int posMeio = jogada.find(" ");
@@ -224,7 +225,7 @@ void Partida::proximaJogada() {
         std::string jogadaPreto = jogada.substr(posMeio + 1);
         _aplicarJogada(PRETO, jogadaPreto);
     } catch (std::out_of_range) {
-        std::cout << "nao há jogada do preto" << std::endl;
+        _interface->imprimirInformacao("nao há jogada do preto");
     }
 
     //Aplica as jogadas de cada jogador
@@ -298,7 +299,7 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
         _tabuleiro[posTorre[0]][posTorre[1]] = "";
         _tabuleiro[posTorre[0]][posTorre[1] + 3] = jogador == BRANCO ? "R" : "r";
 
-        _interface->imprimirInformacao("Movimento roque do " + std::string(jogador == BRANCO ? "branco" : "preto") + "para a esquerda");
+        _interface->imprimirInformacao("Movimento roque do " + std::string(jogador == BRANCO ? "branco" : "preto") + " para a esquerda");
 
     }
 

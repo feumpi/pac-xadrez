@@ -40,9 +40,12 @@ class Interface {
 
     int coletarEntrada();
 
+    void limparInformacoes();
+
    private:
     WINDOW* _janelaPadrao;
     WINDOW* _janelaInformacoes;
+    WINDOW* _janelaOpcoes;
 };
 
 #endif

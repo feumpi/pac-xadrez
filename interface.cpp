@@ -5,18 +5,22 @@ Interface::Interface() {
     curs_set(0);
     noecho();
 
-    printw("################################\n");
-    printw("#                              #\n");
-    printw("#          PAC XADREZ          #\n");
-    printw("#                              #\n");
-    printw("################################\n");
-    printw("Bem-vindo!\n\n");
-
-    _janelaPadrao = newwin(200, 80, 0, 0);
+    _janelaPadrao = newwin(40, 80, 0, 0);
     _janelaInformacoes = newwin(100, 50, 0, 85);
+    _janelaOpcoes = newwin(2, 80, 41, 0);
+
+    wprintw(_janelaPadrao, "################################\n");
+    wprintw(_janelaPadrao, "#                              #\n");
+    wprintw(_janelaPadrao, "#          PAC XADREZ          #\n");
+    wprintw(_janelaPadrao, "#                              #\n");
+    wprintw(_janelaPadrao, "################################\n");
+    wprintw(_janelaPadrao, "Bem-vindo!\n\n");
 
     overwrite(_janelaPadrao, stdscr);
     overwrite(_janelaInformacoes, stdscr);
+
+    wprintw(_janelaOpcoes, "[ENTER] continuar | [q] sair\n");
+    overwrite(_janelaOpcoes, stdscr);
 };
 
 Interface::~Interface() {
@@ -26,21 +30,21 @@ Interface::~Interface() {
 
 void Interface::imprimirJogo(Jogo jogo) {
     //Obtém e imprime cada um dos dados extras
-    printw("Evento: %s\n", jogo.getEvento().c_str());
-    printw("Local: %s\n", jogo.getLocal().c_str());
-    printw("Data: %s\n", jogo.getData().c_str());
-    printw("Rodada: %s\n", jogo.getRodada().c_str());
-    printw("Branco: %s\n", jogo.getBranco().c_str());
-    printw("Preto: %s\n", jogo.getPreto().c_str());
-    printw("Resultado: %s\n", jogo.getResultado().c_str());
+    wprintw(_janelaPadrao, "Evento: %s\n", jogo.getEvento().c_str());
+    wprintw(_janelaPadrao, "Local: %s\n", jogo.getLocal().c_str());
+    wprintw(_janelaPadrao, "Data: %s\n", jogo.getData().c_str());
+    wprintw(_janelaPadrao, "Rodada: %s\n", jogo.getRodada().c_str());
+    wprintw(_janelaPadrao, "Branco: %s\n", jogo.getBranco().c_str());
+    wprintw(_janelaPadrao, "Preto: %s\n", jogo.getPreto().c_str());
+    wprintw(_janelaPadrao, "Resultado: %s\n", jogo.getResultado().c_str());
+
+    overwrite(_janelaPadrao, stdscr);
 }
 
 void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda) {
     int numLinha;
 
     wclear(_janelaPadrao);
-
-    if (legenda) wprintw(_janelaPadrao, T_LEGENDA);
 
     wprintw(_janelaPadrao, T_LINHA_LETRAS);
     wprintw(_janelaPadrao, T_BORDA_HORIZONTAL);
@@ -66,7 +70,10 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
     wprintw(_janelaPadrao, T_LINHA_LETRAS);
     wprintw(_janelaPadrao, "\n");
 
+    if (legenda) wprintw(_janelaPadrao, T_LEGENDA);
+
     overwrite(_janelaPadrao, stdscr);
+    overwrite(_janelaOpcoes, stdscr);
     refresh();
 }
 
@@ -84,6 +91,9 @@ void Interface::imprimirCapturados(std::vector<std::vector<std::string>> captura
         wprintw(_janelaPadrao, "%s ", peca.c_str());
     }
     wprintw(_janelaPadrao, "\n");
+
+    overwrite(_janelaPadrao, stdscr);
+    refresh();
 }
 
 void Interface::imprimirInformacao(std::string texto) {
@@ -112,4 +122,9 @@ int Interface::coletarEntrada() {
         if (entrada == '\n') return ENTRADA_CONTINUAR;
         if (entrada == 'q') return ENTRADA_SAIR;
     }
+}
+
+void Interface::limparInformacoes() {
+    wclear(_janelaInformacoes);
+    overwrite(_janelaInformacoes, stdscr);
 }
