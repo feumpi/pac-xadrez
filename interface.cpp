@@ -6,7 +6,7 @@ Interface::Interface() {
     noecho();
 
     _janelaPadrao = newwin(40, 80, 1, 0);
-    _janelaInformacoes = newwin(100, 50, 1, 85);
+    _janelaInformacoes = newwin(40, 50, 1, 85);
     _janelaOpcoes = newwin(2, 80, 41, 0);
 
     wprintw(_janelaPadrao, "################################\n");
