@@ -214,7 +214,7 @@ void Partida::proximaJogada() {
     }
 
     std::string jogada = _jogo.getJogada(_jogadaAtual);
-    _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual) + std::string(": ") + jogada);
+    _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual + 1) + std::string(": ") + jogada);
 
     //Separa as jogadas em branco e preto
     int posMeio = jogada.find(" ");

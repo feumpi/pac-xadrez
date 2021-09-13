@@ -5,8 +5,8 @@ Interface::Interface() {
     curs_set(0);
     noecho();
 
-    _janelaPadrao = newwin(40, 80, 0, 0);
-    _janelaInformacoes = newwin(100, 50, 0, 85);
+    _janelaPadrao = newwin(40, 80, 1, 0);
+    _janelaInformacoes = newwin(100, 50, 1, 85);
     _janelaOpcoes = newwin(2, 80, 41, 0);
 
     wprintw(_janelaPadrao, "################################\n");

@@ -52,6 +52,7 @@ int main(int argc, char *argv[]) {
 
     clear();
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
+    interface.imprimirInformacao("Aguardando o início da partida");
 
     entrada = interface.coletarEntrada();
 
