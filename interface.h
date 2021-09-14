@@ -22,6 +22,12 @@
 #define ENTRADA_CONTINUAR 1
 #define ENTRADA_VOLTAR 2
 
+#define COR_SECUNDARIA 1
+#define COR_MENU 2
+#define COR_DESTAQUE 3
+#define COR_LEGENDA 4
+#define COR_TABULEIRO 5
+
 #include "jogo.h"
 class Interface {
    public:
