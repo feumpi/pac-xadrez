@@ -11,6 +11,8 @@ Interface::Interface() {
     init_pair(COR_MENU, COLOR_YELLOW, COLOR_BLACK);
     init_pair(COR_DESTAQUE, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(COR_LEGENDA, COLOR_BLUE, COLOR_BLACK);
+    init_pair(COR_PECA_BRANCA, COLOR_GREEN, COLOR_BLACK);
+    init_pair(COR_PECA_PRETA, COLOR_MAGENTA, COLOR_BLACK);
 
     //Inicializa as janelas que serão utilizadas
     _janelaPadrao = newwin(40, 80, 1, 0);
@@ -156,7 +158,13 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
         //Iteração das colunas em cada linha
         for (auto coluna : tabuleiro[i]) {
             //Elemento do quadrado ou espaço vazio, espaçamento e borda direita
-            wprintw(_janelaPadrao, "   %s   |", (coluna.length() > 0 ? coluna.c_str() : " "));
+            std::string conteudo = coluna.length() > 0 ? coluna.c_str() : " ";
+            bool branco = std::isupper(conteudo[0]);
+
+            wattron(_janelaPadrao, COLOR_PAIR(branco ? COR_PECA_BRANCA : COR_PECA_PRETA));
+            wprintw(_janelaPadrao, "   %s   ", (coluna.length() > 0 ? coluna.c_str() : " "));
+            wattroff(_janelaPadrao, COLOR_PAIR(branco ? COR_PECA_BRANCA : COR_PECA_PRETA));
+            wprintw(_janelaPadrao, "|");
         }
 
         wattron(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));

@@ -27,6 +27,8 @@
 #define COR_DESTAQUE 3
 #define COR_LEGENDA 4
 #define COR_TABULEIRO 5
+#define COR_PECA_BRANCA 6
+#define COR_PECA_PRETA 7
 
 #include "jogo.h"
 class Interface {
