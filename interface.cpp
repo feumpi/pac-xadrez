@@ -51,8 +51,8 @@ std::string Interface::selecionarArquivo() {
     std::vector<std::string> arquivos;
 
     for (auto& arquivo : std::filesystem::directory_iterator(std::filesystem::current_path())) {
-        std::string nome = arquivo.path().filename();
-        std::string extensao = arquivo.path().extension();
+        std::string nome = arquivo.path().filename().string();
+        std::string extensao = arquivo.path().extension().string();
         if (extensao == ".pgn") arquivos.push_back(nome);
     }
 
