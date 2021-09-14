@@ -40,32 +40,22 @@ int main(int argc, char *argv[]) {
     //Imprime os dados do jogo
     interface.imprimirJogo(partida.getJogo());
 
-    int entrada = interface.coletarEntrada();
-
-    if (entrada == ENTRADA_SAIR) {
-        interface.~Interface();
-        exit(1);
-    }
+    int acao = interface.aguardarAcao();
 
     //Imprime o tabuleiro inicial com legenda
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
     interface.imprimirInformacao("Aguardando o inicio da partida");
 
     while (!partida.getAcabou()) {
-        entrada = interface.coletarEntrada();
+        acao = interface.aguardarAcao(true);
 
-        if (entrada == ENTRADA_SAIR) {
-            interface.~Interface();
-            exit(1);
-        }
-
-        else if (entrada == ENTRADA_VOLTAR) {
+        if (acao == ENTRADA_VOLTAR) {
             partida.jogadaAnterior();
             interface.imprimirTabuleiro(partida.getTabuleiro());
             interface.imprimirCapturados(partida.getCapturados());
         }
 
-        else {
+        else if (acao == ENTRADA_CONTINUAR) {
             partida.proximaJogada();
             interface.imprimirTabuleiro(partida.getTabuleiro());
             interface.imprimirCapturados(partida.getCapturados());

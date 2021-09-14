@@ -40,7 +40,7 @@ class Interface {
     ~Interface();
 
     //Avisa que o programa vai encerrar por algum motivo e aguarda confirmação
-    void encerrarPrograma(std::string motivo);
+    void encerrarPrograma(std::string motivo, bool limparJanelas = false);
 
     //Exibe os arquivos PGN disponíveis no diretório e retorna a opção selecionada
     std::string selecionarArquivo();
@@ -63,8 +63,8 @@ class Interface {
     //Imprime o resultado e estatísticas do jogo
     void imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto);
 
-    //Coleta e retorna uma opção válida da entrada do usuário
-    int coletarEntrada();
+    //Exibe o menu de opções e aguarda a ação do usuário, retornando a opção solicitada
+    int aguardarAcao(bool partidaIniciada = false);
 
     //Limpa a janela de informações
     void limparInformacoes();

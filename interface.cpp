@@ -39,9 +39,16 @@ Interface::~Interface() {
     exit(1);
 }
 
-void Interface::encerrarPrograma(std::string motivo) {
+void Interface::encerrarPrograma(std::string motivo, bool limparJanelas) {
+    if (limparJanelas) {
+        wclear(_janelaPadrao);
+        wclear(_janelaInformacoes);
+        overwrite(_janelaPadrao, stdscr);
+        overwrite(_janelaInformacoes, stdscr);
+    }
+
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
-    wprintw(_janelaPadrao, "Encerrando o programa: ");
+    wprintw(_janelaPadrao, "\n\nEncerrando o programa: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%s\n\n", motivo.c_str());
 
@@ -254,10 +261,11 @@ void Interface::imprimirResultado(std::string resultado, int jogadas, int captur
     this->limparInformacoes();
 }
 
-int Interface::coletarEntrada() {
-    //Exibe a janela opções
+int Interface::aguardarAcao(bool partidaIniciada) {
+    //Limpa a janela de opções
     wclear(_janelaOpcoes);
 
+    //Imprime e exibe as opções
     wattron(_janelaOpcoes, COLOR_PAIR(COR_MENU));
     wprintw(_janelaOpcoes, "[ENTER] continuar | [v] voltar | [q] sair\n");
     wattroff(_janelaOpcoes, COLOR_PAIR(COR_MENU));
@@ -266,9 +274,26 @@ int Interface::coletarEntrada() {
     //Coleta a entrada
     while (1) {
         int entrada = getch();
-        if (entrada == '\n') return ENTRADA_CONTINUAR;
-        if (entrada == 'v') return ENTRADA_VOLTAR;
-        if (entrada == 'q') return ENTRADA_SAIR;
+
+        switch (entrada) {
+            case '\n':
+                wclear(_janelaOpcoes);
+                overwrite(_janelaOpcoes, stdscr);
+                return ENTRADA_CONTINUAR;
+
+            case 'v':
+                wclear(_janelaOpcoes);
+                overwrite(_janelaOpcoes, stdscr);
+                return ENTRADA_VOLTAR;
+                break;
+
+            case 'q':
+                wclear(_janelaOpcoes);
+                overwrite(_janelaOpcoes, stdscr);
+                //Encerra o programa, limpando as janelas se a partida tiver sido iniciada
+                this->encerrarPrograma("Solicitado pelo usuário.", partidaIniciada);
+                break;
+        }
     }
 }
 
