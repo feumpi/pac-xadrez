@@ -35,6 +35,9 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
         //Cria o objeto jogo com os dados que foram lidos
         _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado, jogadas);
 
+        //Guarda memória para guardar um estado de jogo para cada jogada + 1, sendo o primeiro o inicial
+        _estadosJogo.resize(_jogo.getJogadas().size() + 1);
+
         //Inicializa o tabuleiro com as posições iniciais das peças
         _tabuleiro = {
             //Linha 1
@@ -205,6 +208,13 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
 void Partida::proximaJogada() {
     _interface->limparInformacoes();
 
+    //Salva o estado de jogo atual (tabuleiro e capturas)
+    EstadoJogo estadoAtual;
+    estadoAtual.tabuleiro = _tabuleiro;
+    estadoAtual.capturadosBranco = _capturadosBranco;
+    estadoAtual.capturadosPreto = _capturadosPreto;
+    _estadosJogo[_jogadaAtual + 1] = estadoAtual;
+
     //Incrementa a jogada
     ++_jogadaAtual;
 
@@ -213,12 +223,6 @@ void Partida::proximaJogada() {
         _interface->imprimirInformacao("Fim das jogadas! Avance para ver o resultado.");
         return;
     }
-
-    //Cria a variável para guardar o estado de jogo atual
-    EstadoJogo estadoAtual;
-
-    //Salva o tabuleiro atual antes de ser modificado
-    estadoAtual.tabuleiro = _tabuleiro;
 
     //Obtém a string de NAP da próxima jogada
     std::string jogada = _jogo.getJogada(_jogadaAtual);
@@ -234,13 +238,6 @@ void Partida::proximaJogada() {
     } catch (std::out_of_range) {
         _interface->imprimirInformacao("Nao houve jogada do preto.");
     }
-
-    //Salva as capturas atuais atualizadas, após as jogadas terem sido aplicadas
-    estadoAtual.capturadosBranco = _capturadosBranco;
-    estadoAtual.capturadosPreto = _capturadosPreto;
-
-    //Salva o estado de jogo, agora completo
-    _estadosJogo.push_back(estadoAtual);
 }
 
 void Partida::jogadaAnterior() {
