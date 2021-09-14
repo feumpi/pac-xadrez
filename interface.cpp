@@ -8,7 +8,7 @@ Interface::Interface() {
 
     //Inicializa as janelas que serão utilizadas
     _janelaPadrao = newwin(40, 80, 1, 0);
-    _janelaInformacoes = newwin(40, 50, 1, 85);
+    _janelaInformacoes = newwin(40, 60, 1, 85);
     _janelaOpcoes = newwin(2, 80, 41, 0);
 
     //Imprime a mensagem de boas vindas na janela padrão e a exibe
@@ -23,7 +23,7 @@ Interface::Interface() {
     overwrite(_janelaInformacoes, stdscr);
 
     //Imprime as opções de entrada do usuário na janela de opções e a exibe
-    wprintw(_janelaOpcoes, "[ENTER] continuar | [q] sair\n");
+    wprintw(_janelaOpcoes, "[ENTER] continuar | [v] voltar | [q] sair\n");
     overwrite(_janelaOpcoes, stdscr);
 };
 
@@ -131,6 +131,7 @@ int Interface::coletarEntrada() {
     while (1) {
         int entrada = getch();
         if (entrada == '\n') return ENTRADA_CONTINUAR;
+        if (entrada == 'v') return ENTRADA_VOLTAR;
         if (entrada == 'q') return ENTRADA_SAIR;
     }
 }

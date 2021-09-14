@@ -135,11 +135,11 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
 Jogo Partida::getJogo() {
     return _jogo;
 }
-std::vector<std::vector<std::string>> Partida::getTabuleiro() {
+Partida::Tabuleiro Partida::getTabuleiro() {
     return _tabuleiro;
 }
 
-std::vector<std::vector<std::string>> Partida::getCapturados() {
+Partida::Tabuleiro Partida::getCapturados() {
     return {_capturadosBranco, _capturadosPreto};
 }
 
@@ -205,22 +205,29 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
 void Partida::proximaJogada() {
     _interface->limparInformacoes();
 
-    //Obtém a string de NAP da próxima jogada
+    //Incrementa a jogada
     ++_jogadaAtual;
+
     if (_jogadaAtual >= _jogo.getJogadas().size()) {
         _acabou = true;
         _interface->imprimirInformacao("Fim das jogadas! Avance para ver o resultado.");
         return;
     }
 
+    //Cria a variável para guardar o estado de jogo atual
+    EstadoJogo estadoAtual;
+
+    //Salva o tabuleiro atual antes de ser modificado
+    estadoAtual.tabuleiro = _tabuleiro;
+
+    //Obtém a string de NAP da próxima jogada
     std::string jogada = _jogo.getJogada(_jogadaAtual);
     _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual + 1) + std::string(": ") + jogada);
 
-    //Separa as jogadas em branco e preto
+    //Separa as jogadas em branco e preto e aplica cada uma
     int posMeio = jogada.find(" ");
     std::string jogadaBranco = jogada.substr(0, posMeio);
     _aplicarJogada(BRANCO, jogadaBranco);
-
     try {
         std::string jogadaPreto = jogada.substr(posMeio + 1);
         _aplicarJogada(PRETO, jogadaPreto);
@@ -228,7 +235,32 @@ void Partida::proximaJogada() {
         _interface->imprimirInformacao("Nao houve jogada do preto.");
     }
 
-    //Aplica as jogadas de cada jogador
+    //Salva as capturas atuais atualizadas, após as jogadas terem sido aplicadas
+    estadoAtual.capturadosBranco = _capturadosBranco;
+    estadoAtual.capturadosPreto = _capturadosPreto;
+
+    //Salva o estado de jogo, agora completo
+    _estadosJogo.push_back(estadoAtual);
+}
+
+void Partida::jogadaAnterior() {
+    //Se estiver na segunda jogada ou antes, encerra
+    if (_jogadaAtual <= 0) {
+        _interface->imprimirInformacao("Nao e possivel voltar para antes da primeira jogada.");
+        return;
+    }
+
+    //Decrementa a jogada em 2
+    _jogadaAtual -= 2;
+
+    //Restaura o estado de jogo de 2 jogadas atrás (_jogadaAtual + 1 pois o tabuleiro 0 é a jogada -1)
+    EstadoJogo estadoRestaurado = _estadosJogo[_jogadaAtual + 1];
+    _tabuleiro = estadoRestaurado.tabuleiro;
+    _capturadosBranco = estadoRestaurado.capturadosBranco;
+    _capturadosPreto = estadoRestaurado.capturadosPreto;
+
+    //Reaplica a jogada anterior para imprimir as informações novamente
+    this->proximaJogada();
 }
 
 void Partida::_aplicarJogada(int jogador, std::string jogada) {

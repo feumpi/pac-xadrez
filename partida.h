@@ -16,23 +16,35 @@
 
 //Guarda as informações de uma partida, incluindo o objeto Jogo, mas também a jogada atual e o tabuleiro
 class Partida {
+    typedef std::vector<std::vector<std::string>> Tabuleiro;
+
+    typedef struct {
+        Tabuleiro tabuleiro;
+        std::vector<std::string> capturadosBranco;
+        std::vector<std::string> capturadosPreto;
+    } EstadoJogo;
+
    public:
     //Inicializa o objeto carregando o arquivo informado
     Partida(std::string nomeArquivo, Interface* interface);
 
     //Getters
     Jogo getJogo();
-    std::vector<std::vector<std::string>> getTabuleiro();
-    std::vector<std::vector<std::string>> getCapturados();
+    Tabuleiro getTabuleiro();
+    Tabuleiro getCapturados();
     bool getAcabou();
 
     //Executa a próxima jogada sequencial dos dois jogadores ao tabuleiro
     void proximaJogada();
 
+    //Desfaz a última jogada, retornando para o estado anterior
+    void jogadaAnterior();
+
    private:
     Jogo _jogo{};
     Interface* _interface;
-    std::vector<std::vector<std::string>> _tabuleiro;
+    Tabuleiro _tabuleiro;
+    std::vector<EstadoJogo> _estadosJogo;
 
     int _jogadaAtual = -1;
     bool _acabou = false;

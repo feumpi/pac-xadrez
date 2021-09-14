@@ -19,6 +19,7 @@
 
 #define ENTRADA_SAIR 0
 #define ENTRADA_CONTINUAR 1
+#define ENTRADA_VOLTAR 2
 
 #include "jogo.h"
 class Interface {

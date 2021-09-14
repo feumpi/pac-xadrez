@@ -54,24 +54,26 @@ int main(int argc, char *argv[]) {
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
     interface.imprimirInformacao("Aguardando o início da partida");
 
-    entrada = interface.coletarEntrada();
-
-    if (entrada == ENTRADA_SAIR) {
-        interface.~Interface();
-        exit(1);
-    }
-
     while (!partida.getAcabou()) {
-        clear();
-        partida.proximaJogada();
-        interface.imprimirTabuleiro(partida.getTabuleiro());
-        interface.imprimirCapturados(partida.getCapturados());
-
         entrada = interface.coletarEntrada();
 
         if (entrada == ENTRADA_SAIR) {
             interface.~Interface();
             exit(1);
+        }
+
+        else if (entrada == ENTRADA_VOLTAR) {
+            partida.jogadaAnterior();
+            interface.imprimirTabuleiro(partida.getTabuleiro());
+            interface.imprimirCapturados(partida.getCapturados());
+        }
+
+        else {
+            clear();
+
+            partida.proximaJogada();
+            interface.imprimirTabuleiro(partida.getTabuleiro());
+            interface.imprimirCapturados(partida.getCapturados());
         }
     }
 
