@@ -20,11 +20,9 @@ Interface::Interface() {
     wprintw(_janelaPadrao, "Bem-vindo!\n\n");
     overwrite(_janelaPadrao, stdscr);
 
-    overwrite(_janelaInformacoes, stdscr);
-
-    //Imprime as opções de entrada do usuário na janela de opções e a exibe
     wprintw(_janelaOpcoes, "[ENTER] continuar | [v] voltar | [q] sair\n");
-    overwrite(_janelaOpcoes, stdscr);
+
+    overwrite(_janelaInformacoes, stdscr);
 };
 
 Interface::~Interface() {
@@ -123,7 +121,6 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
 
     //Atualiza e reexibe a janela padrão e a janela opções
     overwrite(_janelaPadrao, stdscr);
-    overwrite(_janelaOpcoes, stdscr);
 }
 
 void Interface::imprimirCapturados(std::vector<std::vector<std::string>> capturados) {
@@ -176,6 +173,10 @@ void Interface::imprimirResultado(std::string resultado, int jogadas, int captur
 }
 
 int Interface::coletarEntrada() {
+    //Exibe a janela opções
+    overwrite(_janelaOpcoes, stdscr);
+
+    //Coleta a entrada
     while (1) {
         int entrada = getch();
         if (entrada == '\n') return ENTRADA_CONTINUAR;
