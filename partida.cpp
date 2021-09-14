@@ -124,10 +124,10 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
                 "R",  //torre branca (Rook)
             }};
 
-        _pecas = {{"R", "torre"}, {"N", "cavalo"}, {"B", "bispo"}, {"Q", "dama"}, {"K", "rei"}, {"P", "peão"}};
+        _pecas = {{"R", "torre"}, {"N", "cavalo"}, {"B", "bispo"}, {"Q", "dama"}, {"K", "rei"}, {"P", "peao"}};
 
     } else {
-        printw("Não foi possível abrir o arquivo.\n");
+        printw("Nao foi possivel abrir o arquivo.\n");
         exit(-1);
     }
 }
@@ -209,7 +209,7 @@ void Partida::proximaJogada() {
     ++_jogadaAtual;
     if (_jogadaAtual >= _jogo.getJogadas().size()) {
         _acabou = true;
-        _interface->imprimirInformacao("fim das jogadas");
+        _interface->imprimirInformacao("Fim das jogadas! Avance para ver o resultado.");
         return;
     }
 
@@ -225,7 +225,7 @@ void Partida::proximaJogada() {
         std::string jogadaPreto = jogada.substr(posMeio + 1);
         _aplicarJogada(PRETO, jogadaPreto);
     } catch (std::out_of_range) {
-        _interface->imprimirInformacao("nao há jogada do preto");
+        _interface->imprimirInformacao("Nao houve jogada do preto.");
     }
 
     //Aplica as jogadas de cada jogador
@@ -276,7 +276,7 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Verifica e imprime se houve xeque
     if (jogada.find("+") != -1) {
-        _interface->imprimirInformacao("Rei " + std::string(jogador == BRANCO ? "preto" : "branco") + " está em xeque!");
+        _interface->imprimirInformacao("Rei " + std::string(jogador == BRANCO ? "preto" : "branco") + " esta em xeque!");
     }
 }
 

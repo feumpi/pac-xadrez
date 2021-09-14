@@ -1,35 +1,39 @@
 #include "interface.h"
 
 Interface::Interface() {
+    //Inicializa a tela em modo curses, esconde o cursor e a entrada do usuário
     initscr();
     curs_set(0);
     noecho();
 
+    //Inicializa as janelas que serão utilizadas
     _janelaPadrao = newwin(40, 80, 1, 0);
     _janelaInformacoes = newwin(40, 50, 1, 85);
     _janelaOpcoes = newwin(2, 80, 41, 0);
 
+    //Imprime a mensagem de boas vindas na janela padrão e a exibe
     wprintw(_janelaPadrao, "################################\n");
     wprintw(_janelaPadrao, "#                              #\n");
     wprintw(_janelaPadrao, "#          PAC XADREZ          #\n");
     wprintw(_janelaPadrao, "#                              #\n");
     wprintw(_janelaPadrao, "################################\n");
     wprintw(_janelaPadrao, "Bem-vindo!\n\n");
-
     overwrite(_janelaPadrao, stdscr);
+
     overwrite(_janelaInformacoes, stdscr);
 
+    //Imprime as opções de entrada do usuário na janela de opções e a exibe
     wprintw(_janelaOpcoes, "[ENTER] continuar | [q] sair\n");
     overwrite(_janelaOpcoes, stdscr);
 };
 
 Interface::~Interface() {
-    printw("Obrigado por usar o programa!\n");
+    //Encerra o modo curses para retornar ao terminal
     endwin();
 }
 
 void Interface::imprimirJogo(Jogo jogo) {
-    //Obtém e imprime cada um dos dados extras
+    //Obtém e imprime cada um dos dados extras na janela padrão e a exibe
     wprintw(_janelaPadrao, "Evento: %s\n", jogo.getEvento().c_str());
     wprintw(_janelaPadrao, "Local: %s\n", jogo.getLocal().c_str());
     wprintw(_janelaPadrao, "Data: %s\n", jogo.getData().c_str());
@@ -37,13 +41,13 @@ void Interface::imprimirJogo(Jogo jogo) {
     wprintw(_janelaPadrao, "Branco: %s\n", jogo.getBranco().c_str());
     wprintw(_janelaPadrao, "Preto: %s\n", jogo.getPreto().c_str());
     wprintw(_janelaPadrao, "Resultado: %s\n", jogo.getResultado().c_str());
-
     overwrite(_janelaPadrao, stdscr);
 }
 
 void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda) {
     int numLinha;
 
+    //Limpa a janela padrão
     wclear(_janelaPadrao);
 
     wprintw(_janelaPadrao, T_LINHA_LETRAS);
@@ -62,7 +66,7 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
             wprintw(_janelaPadrao, "   %s   |", (coluna.length() > 0 ? coluna.c_str() : " "));
         }
 
-        wprintw(_janelaPadrao, "[%d]\n", numLinha);
+        wprintw(_janelaPadrao, " [%d]\n", numLinha);
         wprintw(_janelaPadrao, T_LINHA_VAZIA);
         wprintw(_janelaPadrao, T_BORDA_HORIZONTAL);
     }
@@ -70,23 +74,24 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
     wprintw(_janelaPadrao, T_LINHA_LETRAS);
     wprintw(_janelaPadrao, "\n");
 
+    //Imprime a legenda das peças, se solicitado
     if (legenda) wprintw(_janelaPadrao, T_LEGENDA);
 
+    //Atualiza e reexibe a janela padrão e a janela opções
     overwrite(_janelaPadrao, stdscr);
     overwrite(_janelaOpcoes, stdscr);
-    refresh();
 }
 
 void Interface::imprimirCapturados(std::vector<std::vector<std::string>> capturados) {
     std::vector<std::string> branco = capturados[0], preto = capturados[1];
 
-    wprintw(_janelaPadrao, "Capturados Branco: ");
+    wprintw(_janelaPadrao, "Pecas brancas capturadas: ");
     for (auto peca : branco) {
         wprintw(_janelaPadrao, "%s ", peca.c_str());
     }
     wprintw(_janelaPadrao, "\n");
 
-    wprintw(_janelaPadrao, "Capturados Preto: ");
+    wprintw(_janelaPadrao, "Pecas pretas capturadas: ");
     for (auto peca : preto) {
         wprintw(_janelaPadrao, "%s ", peca.c_str());
     }
