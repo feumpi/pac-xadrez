@@ -24,7 +24,7 @@ O programa foi testado e funcionou como esperado primariamente em ambiente Linux
 
 **Linux:** Installe o pacote `libncurses-dev`, necessário para compilar a biblioteca `ncurses.h`:
 
-```bash
+```console
 sudo apt install libncurses-dev
 ```
 
@@ -32,7 +32,7 @@ _no caso do Ubuntu, ou pacote e sintaxe equivalente para a distribuição utiliz
 
 **Windows:** baixe e compile o código-fonte da biblioteca _PDCurses_:
 
-```bash
+```console
 git clone https://github.com/wmcbrine/PDCurses
 cd PDCurses\wincon
 make
@@ -44,22 +44,24 @@ Observe que os arquivos `PDCurses\curses.h` e `PDCurses\wincon\pdcurses.a` são 
 
 ## Compilar
 
+O código-fonte precisa da especificação **C++17** para funcionar. Ela é suportada pelo _GCC_ desde a versão 5, mas só é usada por padrão a partir da versão 11. Por isso, é necessário especificar `-std=c++17` no comando de compilação.
+
 **Linux:** Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp** e a biblioteca **ncurses**, criando um executável **main.sh**:
 
-```bash
-> g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp -lncurses -o main.sh
+```console
+> g++ -std=c++17 main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp -lncurses -o main.sh
 ```
 
 Ou usando um atalho para incluir todos os arquivos **.cpp** do diretório:
 
-```bash
-> g++ *.cpp -lncurses -o main.sh
+```console
+> g++ -std=c++17 *.cpp -lncurses -o main.sh
 ```
 
 **Windows:** Compile o código-fonte incluindo os arquivos **main.cpp**, **jogo.cpp**, **partida.cpp**, **interface.cpp** e **validador.cpp** e a biblioteca **pdcurses.a**, criando um executável **main.exe**:
 
-```bash
-> g++ main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp PDCurses\wincon\pdcurses.a -o main.exe
+```console
+g++ -std=c++17 main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp PDCurses\wincon\pdcurses.a -o main.exe
 ```
 
 ## Executar
@@ -68,25 +70,61 @@ Execute o arquivo criado no passo anterior
 
 **Linux:**
 
-```bash
+```console
 ./main.sh
 ```
 
 **Windows:**
 
-```bash
+```console
 main.exe
 ```
 
-O programa solicitará o nome de um arquivo PGN a ser lido:
+O programa irá buscar arquivos PGN na mesma pasta do executável e oferecer como opções, bastando pressionar o número correspondente:
 
-```bash
-Informe o nome de um arquivo PGN a ser lido. Ex: jogo01.pgn
-> Nome: _
+```
+################################
+#                              #
+#          PAC XADREZ          #
+#                              #
+################################
+Bem-vindo!
+
+Escolha um arquivo PGN para comecar:
+
+1) jogo03.pgn
+2) jogo02.pgn
+3) jogo01.pgn
 ```
 
-Esse passo pode ser evitado informando o nome como argumento na linha de comando:
+Esse passo pode ser evitado informando o nome como argumento na executação:
 
 ```bash
-> ./main.sh jogo01.pgn
+./main.sh jogo01.pgn
+```
+
+Caso o arquivo não possa ser lido, o programa será encerrado:
+
+```
+Lendo arquivo jogo04.pgn
+
+Encerrando o programa: Nao foi possivel abrir o arquivo jogo04.pgn
+
+Pressione [ENTER] ou [q] para sair e retornar ao terminal.
+```
+
+O arquivo será carregado e as informações do jogo exibidas:
+
+```
+Lendo arquivo jogo01.pgn
+
+jogo01.pgn carregado com sucesso!
+
+Evento: URS-ch36
+Local: URS
+Data: 1968
+Rodada: 2
+Branco: Zaitsev  Igor A
+Preto: Kholmov  Ratmir D
+Resultado: Houve empate
 ```
