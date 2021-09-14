@@ -8,6 +8,7 @@
 #include "PDCurses\curses.h"
 #endif
 
+#include <filesystem>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -24,11 +25,17 @@
 #include "jogo.h"
 class Interface {
    public:
-    //Exibe uma mensagem de boas-vindas ao inicializar
+    //Exibe uma mensagem de boas-vindas e inicializa a interface curses
     Interface();
 
-    //Exibe uma mensagem de encerramento ao fim do programa
+    //Encerra o modo curses e fecha o programa
     ~Interface();
+
+    //Avisa que o programa vai encerrar por algum motivo e aguarda confirmação
+    void encerrarPrograma(std::string motivo);
+
+    //Exibe os arquivos PGN disponíveis no diretório e retorna a opção selecionada
+    std::string selecionarArquivo();
 
     //Imprime as informações sobre um jogo
     void imprimirJogo(Jogo jogo);
@@ -39,6 +46,10 @@ class Interface {
     //Imprime as peças capturadas dos dois jogadores
     void imprimirCapturados(std::vector<std::vector<std::string>> capturados);
 
+    //Imprime na janela padrão
+    void imprimir(std::string texto);
+
+    //Imprime na janela de informações
     void imprimirInformacao(std::string texto);
 
     //Imprime o resultado e estatísticas do jogo

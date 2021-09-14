@@ -9,6 +9,8 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
 
     _interface = interface;
 
+    _interface->imprimir("Lendo arquivo " + nomeArquivo);
+
     arquivo.open(nomeArquivo);
 
     //Se o arquivo foi aberto corretamente
@@ -129,9 +131,12 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
 
         _pecas = {{"R", "torre"}, {"N", "cavalo"}, {"B", "bispo"}, {"Q", "dama"}, {"K", "rei"}, {"P", "peao"}};
 
-    } else {
-        printw("Nao foi possivel abrir o arquivo.\n");
-        exit(-1);
+        _interface->imprimir(nomeArquivo + " carregado com sucesso!");
+
+    }
+    //Encerra o programa se o arquivo não puder ser lido
+    else {
+        _interface->encerrarPrograma("Nao foi possivel abrir o arquivo " + nomeArquivo);
     }
 }
 

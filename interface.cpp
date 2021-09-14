@@ -30,6 +30,50 @@ Interface::Interface() {
 Interface::~Interface() {
     //Encerra o modo curses para retornar ao terminal
     endwin();
+    exit(1);
+}
+
+void Interface::encerrarPrograma(std::string motivo) {
+    wprintw(_janelaPadrao, "Encerrando o programa: %s\n\n", motivo.c_str());
+    wprintw(_janelaPadrao, "Pressione [ENTER] ou [q] para sair e retornar ao terminal.\n");
+    overwrite(_janelaPadrao, stdscr);
+
+    //Aguarda a confirmação do usuário antes de encerrar
+    while (1) {
+        int entrada = getch();
+        if (entrada == '\n' || entrada == 'q') break;
+    }
+
+    this->~Interface();
+}
+
+std::string Interface::selecionarArquivo() {
+    std::vector<std::string> arquivos;
+
+    for (auto& arquivo : std::filesystem::directory_iterator(std::filesystem::current_path())) {
+        std::string nome = arquivo.path().filename();
+        std::string extensao = arquivo.path().extension();
+        if (extensao == ".pgn") arquivos.push_back(nome);
+    }
+
+    //Encerra o programa se nenhum arquivo for encontrado
+    if (!arquivos.size()) {
+        this->encerrarPrograma("Nenhum arquivo PGN encontrado. Coloque algum na mesma pasta desde executavel e tente novamente.");
+    }
+
+    wprintw(_janelaPadrao, "Escolha um arquivo PGN para comecar:\n\n");
+    for (int i = 0; i < arquivos.size(); i++) {
+        wprintw(_janelaPadrao, "%d) %s\n", i + 1, arquivos[i].c_str());
+    }
+    wprintw(_janelaPadrao, "\n");
+    overwrite(_janelaPadrao, stdscr);
+
+    while (1) {
+        int entrada = wgetch(stdscr);
+        int numero = entrada - '0';
+
+        if (numero > 0 && numero <= arquivos.size()) return arquivos[numero - 1];
+    }
 }
 
 void Interface::imprimirJogo(Jogo jogo) {
@@ -101,10 +145,14 @@ void Interface::imprimirCapturados(std::vector<std::vector<std::string>> captura
     refresh();
 }
 
+void Interface::imprimir(std::string texto) {
+    wprintw(_janelaPadrao, "%s\n\n", texto.c_str());
+    overwrite(_janelaPadrao, stdscr);
+}
+
 void Interface::imprimirInformacao(std::string texto) {
     wprintw(_janelaInformacoes, "%s\n\n", texto.c_str());
     overwrite(_janelaInformacoes, stdscr);
-    refresh();
 }
 
 void Interface::imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto) {

@@ -25,22 +25,19 @@
 int main(int argc, char *argv[]) {
     std::string nomeArquivo;
 
+    //Inicializa a interface
+    Interface interface;
+
     if (argc > 1) {
         nomeArquivo = argv[1];
     } else {
-        std::cout << "Informe o nome de um arquivo PGN a ser lido. Ex: jogo01.pgn" << std::endl
-                  << "Nome: ";
-
-        std::cin >> nomeArquivo;
-        std::cin.ignore();
+        nomeArquivo = interface.selecionarArquivo();
     }
-
-    //Inicializa a interface, imprime os dados do jogo e o tabuleiro inicial com legenda
-    Interface interface;
 
     //Inicializa a partida com o nome do arquivo a ser lido
     Partida partida(nomeArquivo, &interface);
 
+    //Imprime os dados do jogo
     interface.imprimirJogo(partida.getJogo());
 
     int entrada = interface.coletarEntrada();
@@ -50,6 +47,7 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
+    //Imprime o tabuleiro inicial com legenda
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
     interface.imprimirInformacao("Aguardando o inicio da partida");
 
