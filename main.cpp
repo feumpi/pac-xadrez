@@ -50,9 +50,8 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    clear();
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
-    interface.imprimirInformacao("Aguardando o início da partida");
+    interface.imprimirInformacao("Aguardando o inicio da partida");
 
     while (!partida.getAcabou()) {
         entrada = interface.coletarEntrada();
@@ -69,8 +68,6 @@ int main(int argc, char *argv[]) {
         }
 
         else {
-            clear();
-
             partida.proximaJogada();
             interface.imprimirTabuleiro(partida.getTabuleiro());
             interface.imprimirCapturados(partida.getCapturados());
