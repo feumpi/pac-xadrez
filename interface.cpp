@@ -12,7 +12,9 @@ Interface::Interface() {
     init_pair(COR_DESTAQUE, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(COR_LEGENDA, COLOR_BLUE, COLOR_BLACK);
     init_pair(COR_PECA_BRANCA, COLOR_GREEN, COLOR_BLACK);
+    init_pair(COR_PECA_BRANCA_DESTAQUE, COLOR_GREEN, COLOR_WHITE);
     init_pair(COR_PECA_PRETA, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(COR_PECA_PRETA_DESTAQUE, COLOR_MAGENTA, COLOR_WHITE);
     init_pair(COR_CAPTURA, COLOR_RED, COLOR_BLACK);
     init_pair(COR_XEQUE, COLOR_CYAN, COLOR_BLACK);
 
@@ -136,9 +138,8 @@ void Interface::imprimirJogo(Jogo jogo) {
     overwrite(_janelaPadrao, stdscr);
 }
 
-void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda) {
+void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda, std::vector<std::vector<int>> posDestaque) {
     int numLinha;
-
     //Limpa a janela padrão
     wclear(_janelaPadrao);
 
@@ -160,14 +161,30 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
         wprintw(_janelaPadrao, " |", numLinha);
 
         //Iteração das colunas em cada linha
-        for (auto coluna : tabuleiro[i]) {
+        for (int j = 0; j < tabuleiro[i].size(); j++) {
             //Elemento do quadrado ou espaço vazio, espaçamento e borda direita
-            std::string conteudo = coluna.length() > 0 ? coluna.c_str() : " ";
+            std::string conteudo = tabuleiro[i][j].length() > 0 ? tabuleiro[i][j].c_str() : " ";
             bool branco = std::isupper(conteudo[0]);
 
-            wattron(_janelaPadrao, COLOR_PAIR(branco ? COR_PECA_BRANCA : COR_PECA_PRETA));
-            wprintw(_janelaPadrao, "   %s   ", (coluna.length() > 0 ? coluna.c_str() : " "));
-            wattroff(_janelaPadrao, COLOR_PAIR(branco ? COR_PECA_BRANCA : COR_PECA_PRETA));
+            //Determina a cor da peça (se é branca/preta e se está na posição de destaque)
+            int cor;
+            if (branco) {
+                if (posDestaque.size() >= 1 && posDestaque[0][0] == i && posDestaque[0][1] == j)
+                    cor = COR_PECA_BRANCA_DESTAQUE;
+                else
+                    cor = COR_PECA_BRANCA;
+            } else {
+                if (posDestaque.size() >= 2 && posDestaque[1][0] == i && posDestaque[1][1] == j)
+                    cor = COR_PECA_PRETA_DESTAQUE;
+                else
+                    cor = COR_PECA_PRETA;
+            }
+
+            wprintw(_janelaPadrao, "  ");
+            wattron(_janelaPadrao, COLOR_PAIR(cor));
+            wprintw(_janelaPadrao, " %s ", conteudo.c_str());
+            wattroff(_janelaPadrao, COLOR_PAIR(cor));
+            wprintw(_janelaPadrao, "  ");
             wprintw(_janelaPadrao, "|");
         }
 

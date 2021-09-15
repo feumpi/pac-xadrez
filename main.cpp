@@ -41,7 +41,5 @@ int main(int argc, char *argv[]) {
 
     partida.comecar();
 
-    interface.encerrarPrograma("Fim do jogo");
-
     return 0;
 }

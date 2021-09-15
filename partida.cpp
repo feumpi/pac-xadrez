@@ -240,16 +240,20 @@ void Partida::comecar() {
 
         if (acao == ENTRADA_VOLTAR) {
             this->jogadaAnterior();
-            _interface->imprimirTabuleiro(_tabuleiro);
+            _interface->imprimirTabuleiro(_tabuleiro, false, _posDestaque);
             _interface->imprimirCapturados(this->getCapturados());
         }
 
         else if (acao == ENTRADA_CONTINUAR) {
             this->proximaJogada();
-            _interface->imprimirTabuleiro(_tabuleiro);
+            _interface->imprimirTabuleiro(_tabuleiro, false, _posDestaque);
             _interface->imprimirCapturados(this->getCapturados());
         }
     }
+
+    //Informa que as jogadas acabaram e aguarda confirmação (continuar ou sair)
+    _interface->imprimirInformacao("Fim das jogadas! Avance para ver o resultado.");
+    _interface->aguardarAcao(true, false, false, true);
 
     _interface->imprimirResultado(_jogo.getResultado(), _jogo.getJogadas().size(), _capturadosBranco.size(), _capturadosPreto.size());
 
@@ -292,9 +296,11 @@ void Partida::proximaJogada() {
 
     if (_jogadaAtual >= _jogo.getJogadas().size()) {
         _acabou = true;
-        _interface->imprimirInformacao("Fim das jogadas! Avance para ver o resultado.");
         return;
     }
+
+    //Limpa as posições de destaque
+    _posDestaque.clear();
 
     //Obtém a string de NAP da próxima jogada
     std::string jogada = _jogo.getJogada(_jogadaAtual);
@@ -398,6 +404,9 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
         _tabuleiro[posRei[0]][posRei[1]] = "";
         _tabuleiro[posRei[0]][posRei[1] - 2] = jogador == BRANCO ? "K" : "k";
 
+        //Adiciona a nova posição do rei à posDestaque
+        _posDestaque.push_back({posRei[0], posRei[1] - 2});
+
         //Move a torre 3 casas para a direita
         _tabuleiro[posTorre[0]][posTorre[1]] = "";
         _tabuleiro[posTorre[0]][posTorre[1] + 3] = jogador == BRANCO ? "R" : "r";
@@ -414,6 +423,9 @@ void Partida::_moverRoque(int jogador, std::string jogada) {
         //Move o rei 2 casas para a direita
         _tabuleiro[posRei[0]][posRei[1]] = "";
         _tabuleiro[posRei[0]][posRei[1] + 2] = jogador == BRANCO ? "K" : "k";
+
+        //Adiciona a nova posição do rei à posDestaque
+        _posDestaque.push_back({posRei[0], posRei[1] + 2});
 
         //Move a torre 2 casas para a esquerda
         _tabuleiro[posTorre[0]][posTorre[1]] = "";
@@ -432,6 +444,9 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
 
     //Encontra os índices i,j do destino na matriz do tabuleiro a partir da coordenada algébrica (e1 -> linha 0, coluna 4)
     std::vector<int> posFinal = _encontrarIndices(destino);
+
+    //Adiciona posFinal a posDestaque
+    _posDestaque.push_back(posFinal);
 
     //TODO: iterar o tabuleiro e testar as peças do tipo certo até achar uma que atenda aos requisitos de movimento em x e y
     for (int i = 0; i < _tabuleiro.size(); i++) {

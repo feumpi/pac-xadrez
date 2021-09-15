@@ -29,9 +29,11 @@
 #define COR_LEGENDA 4
 #define COR_TABULEIRO 5
 #define COR_PECA_BRANCA 6
-#define COR_PECA_PRETA 7
-#define COR_CAPTURA 8
-#define COR_XEQUE 9
+#define COR_PECA_BRANCA_DESTAQUE 7
+#define COR_PECA_PRETA 8
+#define COR_PECA_PRETA_DESTAQUE 9
+#define COR_CAPTURA 10
+#define COR_XEQUE 11
 
 #include "jogo.h"
 class Interface {
@@ -52,7 +54,7 @@ class Interface {
     void imprimirJogo(Jogo jogo);
 
     //Recebe uma matriz de string representando o tabuleiro e a imprime usando caracteres ASCII
-    void imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda = false);
+    void imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda = false, std::vector<std::vector<int>> posDestaque = {});
 
     //Imprime as peças capturadas dos dois jogadores
     void imprimirCapturados(std::vector<std::vector<std::string>> capturados);

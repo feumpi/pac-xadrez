@@ -62,6 +62,7 @@ class Partida {
     std::map<std::string, std::string> _pecas;
     std::vector<std::string> _capturadosBranco;
     std::vector<std::string> _capturadosPreto;
+    std::vector<std::vector<int>> _posDestaque;
 
     //Recebe uma string da linha de dados extras do PGN e retorna o apenas o valor que importa
     std::string _extrairValor(std::string linha);
