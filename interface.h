@@ -21,6 +21,7 @@
 #define ENTRADA_SAIR 0
 #define ENTRADA_CONTINUAR 1
 #define ENTRADA_VOLTAR 2
+#define ENTRADA_RECOMECAR 3
 
 #define COR_SECUNDARIA 1
 #define COR_MENU 2
@@ -40,7 +41,7 @@ class Interface {
     ~Interface();
 
     //Avisa que o programa vai encerrar por algum motivo e aguarda confirmação
-    void encerrarPrograma(std::string motivo, bool limparJanelas = false, bool ignorarConfirmacao = false);
+    void encerrarPrograma(std::string motivo, bool ignorarConfirmacao = false);
 
     //Exibe os arquivos PGN disponíveis no diretório e retorna a opção selecionada
     std::string selecionarArquivo();
@@ -64,7 +65,7 @@ class Interface {
     void imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto);
 
     //Exibe o menu de opções e aguarda a ação do usuário, retornando a opção solicitada
-    int aguardarAcao(bool continuar = true, bool voltar = true, bool sair = true, bool partidaIniciada = false);
+    int aguardarAcao(bool continuar, bool voltar, bool recomecar, bool sair);
 
     //Limpa a janela de informações
     void limparInformacoes();

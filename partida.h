@@ -41,6 +41,9 @@ class Partida {
     //Executa a próxima jogada, a anterior, ou sai, de acordo com a entrada do usuário, repetidamente até o fim das jogadas
     void comecar();
 
+    //Volta para o estado inicial e recomeça a partida
+    void recomecar();
+
     //Executa a próxima jogada sequencial dos dois jogadores ao tabuleiro
     void proximaJogada();
 

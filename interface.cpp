@@ -39,21 +39,15 @@ Interface::~Interface() {
     exit(1);
 }
 
-void Interface::encerrarPrograma(std::string motivo, bool limparJanelas, bool ignorarConfirmacao) {
-    if (limparJanelas) {
-        wclear(_janelaPadrao);
-        wclear(_janelaInformacoes);
-        overwrite(_janelaPadrao, stdscr);
-        overwrite(_janelaInformacoes, stdscr);
-    }
-
+void Interface::encerrarPrograma(std::string motivo, bool ignorarConfirmacao) {
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "\n\nEncerrando o programa: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%s\n\n", motivo.c_str());
+    overwrite(_janelaPadrao, stdscr);
 
     if (!ignorarConfirmacao)
-        int entrada = this->aguardarAcao(false, false, true);
+        int entrada = this->aguardarAcao(false, false, false, true);
 
     this->~Interface();
 }
@@ -252,7 +246,7 @@ void Interface::imprimirResultado(std::string resultado, int jogadas, int captur
     this->limparInformacoes();
 }
 
-int Interface::aguardarAcao(bool continuar, bool voltar, bool sair, bool partidaIniciada) {
+int Interface::aguardarAcao(bool continuar, bool voltar, bool recomecar, bool sair) {
     //Limpa a janela de opções
     wclear(_janelaOpcoes);
 
@@ -261,6 +255,7 @@ int Interface::aguardarAcao(bool continuar, bool voltar, bool sair, bool partida
 
     if (continuar) wprintw(_janelaOpcoes, " [ENTER] continuar ");
     if (voltar) wprintw(_janelaOpcoes, " [v] voltar ");
+    if (recomecar) wprintw(_janelaOpcoes, " [r] recomecar ");
     if (sair) wprintw(_janelaOpcoes, " [q] sair ");
     wprintw(_janelaOpcoes, "\n");
 
@@ -279,11 +274,15 @@ int Interface::aguardarAcao(bool continuar, bool voltar, bool sair, bool partida
             wclear(_janelaOpcoes);
             overwrite(_janelaOpcoes, stdscr);
             return ENTRADA_VOLTAR;
+        } else if (entrada == 'r' && recomecar) {
+            wclear(_janelaOpcoes);
+            overwrite(_janelaOpcoes, stdscr);
+            return ENTRADA_RECOMECAR;
         } else if (entrada == 'q' && sair) {
             wclear(_janelaOpcoes);
             overwrite(_janelaOpcoes, stdscr);
             //Encerra o programa, limpando as janelas se a partida tiver sido iniciada
-            this->encerrarPrograma("Solicitado pelo usuário.", partidaIniciada, true);
+            this->encerrarPrograma("Solicitado pelo usuário.", true);
         }
     }
 }

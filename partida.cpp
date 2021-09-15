@@ -218,7 +218,7 @@ void Partida::preparar() {
     //Imprime os dados do jogo
     _interface->imprimirJogo(_jogo);
 
-    int acao = _interface->aguardarAcao(true, false, true);
+    int acao = _interface->aguardarAcao(true, false, false, true);
 
     //Imprime o tabuleiro inicial com legenda
     _interface->imprimirTabuleiro(_tabuleiro, true);
@@ -226,8 +226,10 @@ void Partida::preparar() {
 }
 
 void Partida::comecar() {
+    _comecou = true;
+
     while (!_acabou) {
-        int acao = _interface->aguardarAcao(true, true, true, true);
+        int acao = _interface->aguardarAcao(true, true, false, true);
 
         if (acao == ENTRADA_VOLTAR) {
             this->jogadaAnterior();
@@ -241,6 +243,31 @@ void Partida::comecar() {
             _interface->imprimirCapturados(this->getCapturados());
         }
     }
+
+    _interface->imprimirResultado(_jogo.getResultado(), _jogo.getJogadas().size(), _capturadosBranco.size(), _capturadosPreto.size());
+
+    int acao = _interface->aguardarAcao(false, false, true, true);
+
+    if (acao == ENTRADA_RECOMECAR) this->recomecar();
+}
+
+void Partida::recomecar() {
+    EstadoJogo estadoInicial = _estadosJogo[0];
+    _tabuleiro = estadoInicial.tabuleiro;
+
+    _interface->imprimir("Recomeçando o jogo!");
+
+    _capturadosBranco.clear();
+    _capturadosPreto.clear();
+    _estadosJogo.clear();
+    _estadosJogo.resize(_jogo.getJogadas().size() + 1);
+
+    _jogadaAtual = -1;
+    _acabou = false;
+    _comecou = false;
+
+    this->preparar();
+    this->comecar();
 }
 
 void Partida::proximaJogada() {
