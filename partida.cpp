@@ -206,7 +206,7 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
 
             //Encontra a posição do segundo espaço ao final da jogada, usa o último char da linha se não encontrado
             posFim = linha.find(" ", posMeio + 1);
-            if (posFim < 0) posFim = linha.length() - 1;
+            if (posFim < 0) posFim = linha.length();
 
             //Extrai a jogada (entre o começo da linha e a posição final encontrada) e adiciona ela ao vetor
             jogada = linha.substr(0, posFim);
@@ -305,6 +305,7 @@ void Partida::proximaJogada() {
     //Obtém a string de NAP da próxima jogada
     std::string jogada = _jogo.getJogada(_jogadaAtual);
     _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual + 1));
+    _interface->imprimirInformacao(jogada);
 
     //Separa as jogadas em branco e preto e aplica cada uma
     int posMeio = jogada.find(" ");
