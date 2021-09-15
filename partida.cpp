@@ -206,7 +206,15 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
 
             //Encontra a posição do segundo espaço ao final da jogada, usa o último char da linha se não encontrado
             posFim = linha.find(" ", posMeio + 1);
+
+            //O comportamento nesse caso se mostrou diferente entre os compiladores do Linux e do Windows.
+            //No windows, linha.length() - 1 deixa pra fora o último char da jogada.
+            //No linux, o anterior funciona perfeitamente enquanto apenas linha.length() resulta na leitura incorreta
+#ifdef __linux__
+            if (posFim < 0) posFim = linha.length() - 1;
+#elif _WIN32
             if (posFim < 0) posFim = linha.length();
+#endif
 
             //Extrai a jogada (entre o começo da linha e a posição final encontrada) e adiciona ela ao vetor
             jogada = linha.substr(0, posFim);
@@ -305,7 +313,6 @@ void Partida::proximaJogada() {
     //Obtém a string de NAP da próxima jogada
     std::string jogada = _jogo.getJogada(_jogadaAtual);
     _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual + 1));
-    _interface->imprimirInformacao(jogada);
 
     //Separa as jogadas em branco e preto e aplica cada uma
     int posMeio = jogada.find(" ");
