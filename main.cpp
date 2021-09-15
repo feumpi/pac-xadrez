@@ -40,14 +40,14 @@ int main(int argc, char *argv[]) {
     //Imprime os dados do jogo
     interface.imprimirJogo(partida.getJogo());
 
-    int acao = interface.aguardarAcao();
+    int acao = interface.aguardarAcao(true, false, true);
 
     //Imprime o tabuleiro inicial com legenda
     interface.imprimirTabuleiro(partida.getTabuleiro(), true);
     interface.imprimirInformacao("Aguardando o inicio da partida");
 
     while (!partida.getAcabou()) {
-        acao = interface.aguardarAcao(true);
+        acao = interface.aguardarAcao(true, true, true, true);
 
         if (acao == ENTRADA_VOLTAR) {
             partida.jogadaAnterior();

@@ -39,7 +39,7 @@ Interface::~Interface() {
     exit(1);
 }
 
-void Interface::encerrarPrograma(std::string motivo, bool limparJanelas) {
+void Interface::encerrarPrograma(std::string motivo, bool limparJanelas, bool ignorarConfirmacao) {
     if (limparJanelas) {
         wclear(_janelaPadrao);
         wclear(_janelaInformacoes);
@@ -52,17 +52,8 @@ void Interface::encerrarPrograma(std::string motivo, bool limparJanelas) {
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%s\n\n", motivo.c_str());
 
-    wattron(_janelaPadrao, COLOR_PAIR(COR_MENU));
-    wprintw(_janelaPadrao, "Pressione [ENTER] ou [q] para sair e retornar ao terminal.\n");
-    wattroff(_janelaPadrao, COLOR_PAIR(COR_MENU));
-
-    overwrite(_janelaPadrao, stdscr);
-
-    //Aguarda a confirmação do usuário antes de encerrar
-    while (1) {
-        int entrada = getch();
-        if (entrada == '\n' || entrada == 'q') break;
-    }
+    if (!ignorarConfirmacao)
+        int entrada = this->aguardarAcao(false, false, true);
 
     this->~Interface();
 }
@@ -261,13 +252,18 @@ void Interface::imprimirResultado(std::string resultado, int jogadas, int captur
     this->limparInformacoes();
 }
 
-int Interface::aguardarAcao(bool partidaIniciada) {
+int Interface::aguardarAcao(bool continuar, bool voltar, bool sair, bool partidaIniciada) {
     //Limpa a janela de opções
     wclear(_janelaOpcoes);
 
     //Imprime e exibe as opções
     wattron(_janelaOpcoes, COLOR_PAIR(COR_MENU));
-    wprintw(_janelaOpcoes, "[ENTER] continuar | [v] voltar | [q] sair\n");
+
+    if (continuar) wprintw(_janelaOpcoes, " [ENTER] continuar ");
+    if (voltar) wprintw(_janelaOpcoes, " [v] voltar ");
+    if (sair) wprintw(_janelaOpcoes, " [q] sair ");
+    wprintw(_janelaOpcoes, "\n");
+
     wattroff(_janelaOpcoes, COLOR_PAIR(COR_MENU));
     overwrite(_janelaOpcoes, stdscr);
 
@@ -275,24 +271,19 @@ int Interface::aguardarAcao(bool partidaIniciada) {
     while (1) {
         int entrada = getch();
 
-        switch (entrada) {
-            case '\n':
-                wclear(_janelaOpcoes);
-                overwrite(_janelaOpcoes, stdscr);
-                return ENTRADA_CONTINUAR;
-
-            case 'v':
-                wclear(_janelaOpcoes);
-                overwrite(_janelaOpcoes, stdscr);
-                return ENTRADA_VOLTAR;
-                break;
-
-            case 'q':
-                wclear(_janelaOpcoes);
-                overwrite(_janelaOpcoes, stdscr);
-                //Encerra o programa, limpando as janelas se a partida tiver sido iniciada
-                this->encerrarPrograma("Solicitado pelo usuário.", partidaIniciada);
-                break;
+        if (entrada == '\n' && continuar) {
+            wclear(_janelaOpcoes);
+            overwrite(_janelaOpcoes, stdscr);
+            return ENTRADA_CONTINUAR;
+        } else if (entrada == 'v' && voltar) {
+            wclear(_janelaOpcoes);
+            overwrite(_janelaOpcoes, stdscr);
+            return ENTRADA_VOLTAR;
+        } else if (entrada == 'q' && sair) {
+            wclear(_janelaOpcoes);
+            overwrite(_janelaOpcoes, stdscr);
+            //Encerra o programa, limpando as janelas se a partida tiver sido iniciada
+            this->encerrarPrograma("Solicitado pelo usuário.", partidaIniciada, true);
         }
     }
 }
