@@ -8,7 +8,7 @@
 class Jogo {
    public:
     //Inicializa recebendo os dados do jogo ou em branco, com strings vazias
-    Jogo(std::string evento = "", std::string local = "", std::string data = "", std::string rodada = "", std::string branco = "", std::string preto = "", std::string resultado = "", std::vector<std::string> jogadas = {});
+    Jogo(std::string evento = "", std::string local = "", std::string data = "", std::string rodada = "", std::string branco = "", std::string preto = "", std::string resultado = "", std::string eloBranco = "", std::string eloPreto = "", std::string eco = "", std::vector<std::string> jogadas = {});
 
     //Getters
     std::string getEvento();
@@ -18,6 +18,9 @@ class Jogo {
     std::string getBranco();
     std::string getPreto();
     std::string getResultado();
+    std::string getEloBranco();
+    std::string getEloPreto();
+    std::string getEco();
     std::vector<std::string> getJogadas();
     std::string getJogada(int indice);
 
@@ -29,6 +32,9 @@ class Jogo {
     std::string _branco;
     std::string _preto;
     std::string _resultado;
+    std::string _eloBranco;
+    std::string _eloPreto;
+    std::string _eco;
     std::vector<std::string> _jogadas;
     std::map<std::string, std::string> _meses = {{"01", "janeiro"},
                                                  {"02", "fevereiro"},

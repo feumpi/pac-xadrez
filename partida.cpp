@@ -4,7 +4,7 @@
 
 Partida::Partida(std::string nomeArquivo, Interface* interface) {
     std::ifstream arquivo;
-    std::string linha, evento, local, data, rodada, branco, preto, resultado;
+    std::string linha, evento, local, data, rodada, branco, preto, resultado, eloBranco, eloPreto, eco;
     std::vector<std::string> jogadas;
 
     _interface = interface;
@@ -30,12 +30,18 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
         preto = _extrairValor(linha);
         getline(arquivo, linha);
         resultado = _extrairValor(linha);
+        getline(arquivo, linha);
+        eloBranco = _extrairValor(linha);
+        getline(arquivo, linha);
+        eloPreto = _extrairValor(linha);
+        getline(arquivo, linha);
+        eco = _extrairValor(linha);
 
         //Extrai as jogadas das linhas restantes do arquivo
         jogadas = _lerJogadas(arquivo);
 
         //Cria o objeto jogo com os dados que foram lidos
-        _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado, jogadas);
+        _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado, eloBranco, eloPreto, eco, jogadas);
 
         //Guarda memória para guardar um estado de jogo para cada jogada + 1, sendo o primeiro o inicial
         _estadosJogo.resize(_jogo.getJogadas().size() + 1);

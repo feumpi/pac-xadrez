@@ -69,16 +69,19 @@ std::string Interface::selecionarArquivo() {
     }
 
     wprintw(_janelaPadrao, "Escolha um arquivo PGN para comecar:\n\n");
+    wattron(_janelaPadrao, COLOR_PAIR(COR_MENU));
     for (int i = 0; i < arquivos.size(); i++) {
-        wattron(_janelaPadrao, COLOR_PAIR(COR_MENU));
         wprintw(_janelaPadrao, "[%d] %s\n", i + 1, arquivos[i].c_str());
-        wattroff(_janelaPadrao, COLOR_PAIR(COR_MENU));
     }
-    wprintw(_janelaPadrao, "\n");
+    wprintw(_janelaPadrao, "\n[q] sair\n\n");
+    wattroff(_janelaPadrao, COLOR_PAIR(COR_MENU));
     overwrite(_janelaPadrao, stdscr);
 
     while (1) {
         int entrada = wgetch(stdscr);
+
+        if (entrada == 'q' || entrada == 'Q') this->encerrarPrograma("", true);
+
         int numero = entrada - '0';
 
         if (numero > 0 && numero <= arquivos.size()) return arquivos[numero - 1];
@@ -111,17 +114,24 @@ void Interface::imprimirJogo(Jogo jogo) {
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "Branco: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
-    wprintw(_janelaPadrao, "%s\n", jogo.getBranco().c_str());
+    std::string elo = jogo.getEloBranco();
+    wprintw(_janelaPadrao, "%s %s\n", jogo.getBranco().c_str(), elo.length() > 0 ? std::string("(elo " + elo + ")").c_str() : "");
 
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "Preto: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
-    wprintw(_janelaPadrao, "%s\n", jogo.getPreto().c_str());
+    elo = jogo.getEloPreto();
+    wprintw(_janelaPadrao, "%s %s\n", jogo.getPreto().c_str(), elo.length() > 0 ? std::string("(elo " + elo + ")").c_str() : "");
 
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "Resultado: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%s\n", jogo.getResultado().c_str());
+
+    wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
+    wprintw(_janelaPadrao, "ECO: ");
+    wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
+    wprintw(_janelaPadrao, "%s\n", jogo.getEco().c_str());
 
     overwrite(_janelaPadrao, stdscr);
 }

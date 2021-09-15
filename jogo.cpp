@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Jogo::Jogo(std::string evento, std::string local, std::string data, std::string rodada, std::string branco, std::string preto, std::string resultado, std::vector<std::string> jogadas) {
+Jogo::Jogo(std::string evento, std::string local, std::string data, std::string rodada, std::string branco, std::string preto, std::string resultado, std::string eloBranco, std::string eloPreto, std::string eco, std::vector<std::string> jogadas) {
     //Inicializa as propriedades privadas se os valores forem recebidos
     _evento = evento;
     _local = local;
@@ -11,6 +11,9 @@ Jogo::Jogo(std::string evento, std::string local, std::string data, std::string 
     _branco = branco;
     _preto = preto;
     _resultado = resultado;
+    _eloBranco = eloBranco;
+    _eloPreto = eloPreto;
+    _eco = eco;
     _jogadas = jogadas;
 }
 
@@ -53,6 +56,19 @@ std::string Jogo::getResultado() {
     if (_resultado == "0-1") return _formatarNome(_preto) + " (preto) venceu";
     return "Houve empate";
 }
+
+std::string Jogo::getEloBranco() {
+    return _eloBranco;
+}
+
+std::string Jogo::getEloPreto() {
+    return _eloPreto;
+}
+
+std::string Jogo::getEco() {
+    return _eco;
+}
+
 std::vector<std::string> Jogo::getJogadas() {
     return _jogadas;
 }
