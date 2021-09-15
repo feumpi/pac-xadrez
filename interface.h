@@ -30,6 +30,8 @@
 #define COR_TABULEIRO 5
 #define COR_PECA_BRANCA 6
 #define COR_PECA_PRETA 7
+#define COR_CAPTURA 8
+#define COR_XEQUE 9
 
 #include "jogo.h"
 class Interface {
@@ -59,7 +61,7 @@ class Interface {
     void imprimir(std::string texto);
 
     //Imprime na janela de informações
-    void imprimirInformacao(std::string texto);
+    void imprimirInformacao(std::string texto, int cor = 0);
 
     //Imprime o resultado e estatísticas do jogo
     void imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto);

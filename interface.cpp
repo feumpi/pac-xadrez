@@ -13,6 +13,8 @@ Interface::Interface() {
     init_pair(COR_LEGENDA, COLOR_BLUE, COLOR_BLACK);
     init_pair(COR_PECA_BRANCA, COLOR_GREEN, COLOR_BLACK);
     init_pair(COR_PECA_PRETA, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(COR_CAPTURA, COLOR_RED, COLOR_BLACK);
+    init_pair(COR_XEQUE, COLOR_CYAN, COLOR_BLACK);
 
     //Inicializa as janelas que serão utilizadas
     _janelaPadrao = newwin(40, 80, 1, 0);
@@ -184,15 +186,19 @@ void Interface::imprimirCapturados(std::vector<std::vector<std::string>> captura
     std::vector<std::string> branco = capturados[0], preto = capturados[1];
 
     wprintw(_janelaPadrao, "Pecas brancas capturadas: ");
+    wattron(_janelaPadrao, COLOR_PAIR(COR_PECA_BRANCA));
     for (auto peca : branco) {
         wprintw(_janelaPadrao, "%s ", peca.c_str());
     }
+    wattroff(_janelaPadrao, COLOR_PAIR(COR_PECA_BRANCA));
     wprintw(_janelaPadrao, "\n");
 
     wprintw(_janelaPadrao, "Pecas pretas capturadas: ");
+    wattron(_janelaPadrao, COLOR_PAIR(COR_PECA_PRETA));
     for (auto peca : preto) {
         wprintw(_janelaPadrao, "%s ", peca.c_str());
     }
+    wattroff(_janelaPadrao, COLOR_PAIR(COR_PECA_PRETA));
     wprintw(_janelaPadrao, "\n");
 
     overwrite(_janelaPadrao, stdscr);
@@ -204,8 +210,10 @@ void Interface::imprimir(std::string texto) {
     overwrite(_janelaPadrao, stdscr);
 }
 
-void Interface::imprimirInformacao(std::string texto) {
+void Interface::imprimirInformacao(std::string texto, int cor) {
+    if (cor > 0) wattron(_janelaInformacoes, COLOR_PAIR(cor));
     wprintw(_janelaInformacoes, "%s\n\n", texto.c_str());
+    if (cor > 0) wattroff(_janelaInformacoes, COLOR_PAIR(cor));
     overwrite(_janelaInformacoes, stdscr);
 }
 

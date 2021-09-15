@@ -291,7 +291,7 @@ void Partida::proximaJogada() {
 
     //Obtém a string de NAP da próxima jogada
     std::string jogada = _jogo.getJogada(_jogadaAtual);
-    _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual + 1) + std::string(": ") + jogada);
+    _interface->imprimirInformacao("Jogada #" + std::to_string(_jogadaAtual + 1));
 
     //Separa as jogadas em branco e preto e aplica cada uma
     int posMeio = jogada.find(" ");
@@ -328,6 +328,8 @@ void Partida::jogadaAnterior() {
 void Partida::_aplicarJogada(int jogador, std::string jogada) {
     std::string peca, destino, colunaOrigem = "";
     int posInicio;
+
+    _interface->imprimirInformacao((jogador == BRANCO ? "BRANCO: " : "PRETO: ") + jogada, jogador == BRANCO ? COR_PECA_BRANCA : COR_PECA_PRETA);
 
     //Extrai a letra da peça da jogada no índice 0
     peca = jogada.substr(0, 1);
@@ -370,7 +372,7 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
 
     //Verifica e imprime se houve xeque
     if (jogada.find("+") != -1) {
-        _interface->imprimirInformacao("Rei " + std::string(jogador == BRANCO ? "preto" : "branco") + " esta em xeque!");
+        _interface->imprimirInformacao("Rei " + std::string(jogador == BRANCO ? "preto" : "branco") + " esta em xeque!", COR_XEQUE);
     }
 }
 
@@ -477,7 +479,7 @@ void Partida::_moverPeca(int jogador, std::string peca, std::string destino, std
 
                 //Imprime a captura
                 pecaCapturada = std::toupper(pecaCapturada[0]);
-                _interface->imprimirInformacao(_pecas[pecaCapturada] + " " + std::string((jogador == BRANCO ? "preto" : "branco")) + " capturado");
+                _interface->imprimirInformacao(_pecas[pecaCapturada] + " " + std::string((jogador == BRANCO ? "preto" : "branco")) + " capturado", COR_CAPTURA);
             }
 
             //Adiciona a peça na nova posição e encerra a iteração
