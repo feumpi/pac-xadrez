@@ -151,6 +151,10 @@ Partida::Tabuleiro Partida::getCapturados() {
     return {_capturadosBranco, _capturadosPreto};
 }
 
+bool Partida::getComecou() {
+    return _comecou;
+}
+
 bool Partida::getAcabou() {
     return _acabou;
 }
@@ -208,6 +212,35 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
     }
 
     return jogadas;
+}
+
+void Partida::preparar() {
+    //Imprime os dados do jogo
+    _interface->imprimirJogo(_jogo);
+
+    int acao = _interface->aguardarAcao(true, false, true);
+
+    //Imprime o tabuleiro inicial com legenda
+    _interface->imprimirTabuleiro(_tabuleiro, true);
+    _interface->imprimirInformacao("Aguardando o inicio da partida");
+}
+
+void Partida::comecar() {
+    while (!_acabou) {
+        int acao = _interface->aguardarAcao(true, true, true, true);
+
+        if (acao == ENTRADA_VOLTAR) {
+            this->jogadaAnterior();
+            _interface->imprimirTabuleiro(_tabuleiro);
+            _interface->imprimirCapturados(this->getCapturados());
+        }
+
+        else if (acao == ENTRADA_CONTINUAR) {
+            this->proximaJogada();
+            _interface->imprimirTabuleiro(_tabuleiro);
+            _interface->imprimirCapturados(this->getCapturados());
+        }
+    }
 }
 
 void Partida::proximaJogada() {

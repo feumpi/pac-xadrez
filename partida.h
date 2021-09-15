@@ -32,7 +32,14 @@ class Partida {
     Jogo getJogo();
     Tabuleiro getTabuleiro();
     Tabuleiro getCapturados();
+    bool getComecou();
     bool getAcabou();
+
+    //Exibe os dados do jogo e o tabuleiro inicial
+    void preparar();
+
+    //Executa a próxima jogada, a anterior, ou sai, de acordo com a entrada do usuário, repetidamente até o fim das jogadas
+    void comecar();
 
     //Executa a próxima jogada sequencial dos dois jogadores ao tabuleiro
     void proximaJogada();
@@ -47,6 +54,7 @@ class Partida {
     std::vector<EstadoJogo> _estadosJogo;
 
     int _jogadaAtual = -1;
+    bool _comecou = false;
     bool _acabou = false;
     std::map<std::string, std::string> _pecas;
     std::vector<std::string> _capturadosBranco;

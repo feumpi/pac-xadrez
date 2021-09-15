@@ -37,30 +37,9 @@ int main(int argc, char *argv[]) {
     //Inicializa a partida com o nome do arquivo a ser lido
     Partida partida(nomeArquivo, &interface);
 
-    //Imprime os dados do jogo
-    interface.imprimirJogo(partida.getJogo());
+    partida.preparar();
 
-    int acao = interface.aguardarAcao(true, false, true);
-
-    //Imprime o tabuleiro inicial com legenda
-    interface.imprimirTabuleiro(partida.getTabuleiro(), true);
-    interface.imprimirInformacao("Aguardando o inicio da partida");
-
-    while (!partida.getAcabou()) {
-        acao = interface.aguardarAcao(true, true, true, true);
-
-        if (acao == ENTRADA_VOLTAR) {
-            partida.jogadaAnterior();
-            interface.imprimirTabuleiro(partida.getTabuleiro());
-            interface.imprimirCapturados(partida.getCapturados());
-        }
-
-        else if (acao == ENTRADA_CONTINUAR) {
-            partida.proximaJogada();
-            interface.imprimirTabuleiro(partida.getTabuleiro());
-            interface.imprimirCapturados(partida.getCapturados());
-        }
-    }
+    partida.comecar();
 
     interface.imprimirResultado(partida.getJogo().getResultado(), partida.getJogo().getJogadas().size(), partida.getCapturados()[0].size(), partida.getCapturados()[1].size());
 
