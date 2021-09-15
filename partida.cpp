@@ -235,7 +235,8 @@ void Partida::comecar() {
     _comecou = true;
 
     while (!_acabou) {
-        int acao = _interface->aguardarAcao(true, true, false, true);
+        //Exibe o menu de opções, mostrando "voltar" somente se não for a primeira jogada
+        int acao = _interface->aguardarAcao(true, _jogadaAtual > 0, false, true);
 
         if (acao == ENTRADA_VOLTAR) {
             this->jogadaAnterior();
