@@ -274,6 +274,8 @@ int Interface::aguardarAcao(bool continuar, bool voltar, bool recomecar, bool sa
     while (1) {
         int entrada = getch();
 
+        if (std::isupper(entrada)) entrada = std::tolower(entrada);
+
         if (entrada == '\n' && continuar) {
             wclear(_janelaOpcoes);
             overwrite(_janelaOpcoes, stdscr);
