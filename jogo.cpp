@@ -75,7 +75,6 @@ std::vector<std::string> Jogo::getJogadas() {
 
 std::string Jogo::getJogada(int indice) {
     if (indice < 0 || indice > _jogadas.size() - 1) {
-        std::cout << "Jogada invalida" << std::endl;
         return "";
     }
 

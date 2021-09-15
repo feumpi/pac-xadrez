@@ -18,6 +18,7 @@
 class Partida {
     typedef std::vector<std::vector<std::string>> Tabuleiro;
 
+    //Guarda um estado de jogo (tabuleiro e capturas)
     typedef struct {
         Tabuleiro tabuleiro;
         std::vector<std::string> capturadosBranco;

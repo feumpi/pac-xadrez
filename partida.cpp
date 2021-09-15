@@ -43,7 +43,7 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
         //Cria o objeto jogo com os dados que foram lidos
         _jogo = Jogo(evento, local, data, rodada, branco, preto, resultado, eloBranco, eloPreto, eco, jogadas);
 
-        //Guarda memória para guardar um estado de jogo para cada jogada + 1, sendo o primeiro o inicial
+        //Redimensiona o vetor para guardar um estado de jogo para cada jogada + 1, sendo o primeiro o inicial
         _estadosJogo.resize(_jogo.getJogadas().size() + 1);
 
         //Inicializa o tabuleiro com as posições iniciais das peças
@@ -135,8 +135,10 @@ Partida::Partida(std::string nomeArquivo, Interface* interface) {
                 "R",  //torre branca (Rook)
             }};
 
+        //Inicializa o map com os nomes das peças
         _pecas = {{"R", "torre"}, {"N", "cavalo"}, {"B", "bispo"}, {"Q", "dama"}, {"K", "rei"}, {"P", "peao"}};
 
+        //Sinaliza o sucesso ao ler o arquivo
         _interface->imprimir(nomeArquivo + " carregado com sucesso!");
 
     }
@@ -152,15 +154,12 @@ Jogo Partida::getJogo() {
 Partida::Tabuleiro Partida::getTabuleiro() {
     return _tabuleiro;
 }
-
 Partida::Tabuleiro Partida::getCapturados() {
     return {_capturadosBranco, _capturadosPreto};
 }
-
 bool Partida::getComecou() {
     return _comecou;
 }
-
 bool Partida::getAcabou() {
     return _acabou;
 }
@@ -195,21 +194,24 @@ std::vector<std::string> Partida::_lerJogadas(std::ifstream& arquivo) {
             //Pula para a próxima linha se não for uma linha de jogadas (. não encontrado)
             if (posInicio < 0) break;
 
+            //Torna posInicio a posição seguinte ao ponto
             ++posInicio;
 
-            //Remove o começo da linha até o . (antes da jogada), interrompe se não encontrado
+            //Remove o começo da linha antes do . (antes da jogada)
             linha = linha.substr(posInicio);
 
-            //Encontra a posição do primeiro espaço no meio da jogada, interrompe se não encontrado
+            //Encontra a posição do primeiro espaço (no meio da jogada), interrompe se não encontrado
             posMeio = linha.find(" ");
             if (posMeio < 0) break;
 
-            //Encontra a posição do segundo espaço ao final da jogada, usa o último char da linha se não encontrado
+            //Encontra a posição do segundo espaço (ao final da jogada)
             posFim = linha.find(" ", posMeio + 1);
 
-            //O comportamento nesse caso se mostrou diferente entre os compiladores do Linux e do Windows.
-            //No windows, linha.length() - 1 deixa pra fora o último char da jogada.
-            //No linux, o anterior funciona perfeitamente enquanto apenas linha.length() resulta na leitura incorreta
+            //Se o espaço não foi encontrado (posFim < 0), usa o último char a linha
+            //Provavelmente por causa dos caracteres de quebra de linha direntes (CRLF/LF), o Windows e Linux se comportam diferente nesse caso
+            //No windows, linha.length() - 1 deixa pra fora o último char da jogada. (\n = CRLF)
+            //No linux, o anterior funciona perfeitamente enquanto apenas linha.length() resulta na leitura incorreta (\n = LF e CR como char extra)
+            //Para resolver o problema nas duas plataformas, foi usada a verificação com macros de plataforma
 #ifdef __linux__
             if (posFim < 0) posFim = linha.length() - 1;
 #elif _WIN32
@@ -232,9 +234,10 @@ void Partida::preparar() {
     //Imprime os dados do jogo
     _interface->imprimirJogo(_jogo);
 
-    int acao = _interface->aguardarAcao(true, false, false, true);
+    //Aguarda a confirmação para continuar, exibindo o menu com continuar e sair
+    _interface->aguardarAcao(true, false, false, true);
 
-    //Imprime o tabuleiro inicial com legenda
+    //Imprime o tabuleiro inicial com legenda e "aguardando início" na janela de informações
     _interface->imprimirTabuleiro(_tabuleiro, true);
     _interface->imprimirInformacao("Aguardando o inicio da partida");
 }
@@ -242,16 +245,19 @@ void Partida::preparar() {
 void Partida::comecar() {
     _comecou = true;
 
+    //Enquanto houverem jogadas restantes
     while (!_acabou) {
-        //Exibe o menu de opções, mostrando "voltar" somente se não for a primeira jogada
+        //Exibe o menu de opções, mostrando continuar e sair; "voltar" somente se não for a primeira jogada
         int acao = _interface->aguardarAcao(true, _jogadaAtual > 0, false, true);
 
+        //Volta uma jogada e reimprime o tabuleiro e as capturas
         if (acao == ENTRADA_VOLTAR) {
             this->jogadaAnterior();
             _interface->imprimirTabuleiro(_tabuleiro, false, _posDestaque);
             _interface->imprimirCapturados(this->getCapturados());
         }
 
+        //Avança uma jogada e reimprime o tabuleiro e as capturas
         else if (acao == ENTRADA_CONTINUAR) {
             this->proximaJogada();
             _interface->imprimirTabuleiro(_tabuleiro, false, _posDestaque);
@@ -263,33 +269,39 @@ void Partida::comecar() {
     _interface->imprimirInformacao("Fim das jogadas! Avance para ver o resultado.");
     _interface->aguardarAcao(true, false, false, true);
 
+    //Imprime o resultado do jogo
     _interface->imprimirResultado(_jogo.getResultado(), _jogo.getJogadas().size(), _capturadosBranco.size(), _capturadosPreto.size());
 
+    //Aguarda a entrada para recomeçar a partida ou sair do programa
     int acao = _interface->aguardarAcao(false, false, true, true);
-
     if (acao == ENTRADA_RECOMECAR) this->recomecar();
 }
 
 void Partida::recomecar() {
+    //Recupera o estado de jogo inicial (índice 0) e atualiza o tabuleiro
     EstadoJogo estadoInicial = _estadosJogo[0];
     _tabuleiro = estadoInicial.tabuleiro;
 
     _interface->imprimir("Recomeçando o jogo!");
 
+    //Limpa os vetores de captura e estados de jogo, redimensionando novamente para o número de jogadas +1
     _capturadosBranco.clear();
     _capturadosPreto.clear();
     _estadosJogo.clear();
     _estadosJogo.resize(_jogo.getJogadas().size() + 1);
 
+    //Reseta propriedades para valores iniciais
     _jogadaAtual = -1;
     _acabou = false;
     _comecou = false;
 
+    //Prepara e começa o jogo novamente
     this->preparar();
     this->comecar();
 }
 
 void Partida::proximaJogada() {
+    //Limpa as informações anteriores da janela
     _interface->limparInformacoes();
 
     //Salva o estado de jogo atual (tabuleiro e capturas)
@@ -302,12 +314,13 @@ void Partida::proximaJogada() {
     //Incrementa a jogada
     ++_jogadaAtual;
 
+    //Se a jogada não existir, sinaliza que acabou e retorna
     if (_jogadaAtual >= _jogo.getJogadas().size()) {
         _acabou = true;
         return;
     }
 
-    //Limpa as posições de destaque
+    //Limpa as posições de destaque (peças movidas na jogada atual)
     _posDestaque.clear();
 
     //Obtém a string de NAP da próxima jogada
@@ -327,7 +340,7 @@ void Partida::proximaJogada() {
 }
 
 void Partida::jogadaAnterior() {
-    //Se estiver na segunda jogada ou antes, encerra
+    //Se estiver primeira jogada ou antes, encerra
     if (_jogadaAtual <= 0) {
         _interface->imprimirInformacao("Nao e possivel voltar para antes da primeira jogada.");
         return;
@@ -350,6 +363,7 @@ void Partida::_aplicarJogada(int jogador, std::string jogada) {
     std::string peca, destino, colunaOrigem = "";
     int posInicio;
 
+    //Exibe a jogada do jogador atual em NAP, na cor dele
     _interface->imprimirInformacao((jogador == BRANCO ? "BRANCO: " : "PRETO: ") + jogada, jogador == BRANCO ? COR_PECA_BRANCA : COR_PECA_PRETA);
 
     //Extrai a letra da peça da jogada no índice 0

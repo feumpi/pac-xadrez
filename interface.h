@@ -13,16 +13,19 @@
 #include <string>
 #include <vector>
 
+//Partes do tabuleiro
 #define T_LEGENDA "R: torre, N: cavalo, B: bispo, Q: dama, K: rei, P: peão\nMAIUSCULAS: BRANCAS, minusculas: pretas\n\n"
 #define T_LINHA_LETRAS "       [A]     [B]     [C]     [D]     [E]     [F]     [G]     [H]   \n"
 #define T_BORDA_HORIZONTAL "    -----------------------------------------------------------------\n"
 #define T_LINHA_VAZIA "    |       |       |       |       |       |       |       |       |\n"
 
+//Opções de entrada no menu
 #define ENTRADA_SAIR 0
 #define ENTRADA_CONTINUAR 1
 #define ENTRADA_VOLTAR 2
 #define ENTRADA_RECOMECAR 3
 
+//Cores
 #define COR_SECUNDARIA 1
 #define COR_MENU 2
 #define COR_DESTAQUE 3

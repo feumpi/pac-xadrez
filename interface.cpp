@@ -6,6 +6,7 @@ Interface::Interface() {
     curs_set(0);
     noecho();
 
+    //Inicializa as cores
     start_color();
     init_pair(COR_SECUNDARIA, COLOR_CYAN, COLOR_BLACK);
     init_pair(COR_MENU, COLOR_YELLOW, COLOR_BLACK);
@@ -44,12 +45,14 @@ Interface::~Interface() {
 }
 
 void Interface::encerrarPrograma(std::string motivo, bool ignorarConfirmacao) {
+    //Exibe o motivo do encerramento informado
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "\n\nEncerrando o programa: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%s\n\n", motivo.c_str());
     overwrite(_janelaPadrao, stdscr);
 
+    //Exibe o menu somente com a opção sair e aguarda confirmação
     if (!ignorarConfirmacao)
         int entrada = this->aguardarAcao(false, false, false, true);
 
@@ -59,6 +62,7 @@ void Interface::encerrarPrograma(std::string motivo, bool ignorarConfirmacao) {
 std::string Interface::selecionarArquivo() {
     std::vector<std::string> arquivos;
 
+    //Itera os arquivos do diretório atual e guarda no vetor os que tem a extensão ".pgn"
     for (auto& arquivo : std::filesystem::directory_iterator(std::filesystem::current_path())) {
         std::string nome = arquivo.path().filename().string();
         std::string extensao = arquivo.path().extension().string();
@@ -67,9 +71,10 @@ std::string Interface::selecionarArquivo() {
 
     //Encerra o programa se nenhum arquivo for encontrado
     if (!arquivos.size()) {
-        this->encerrarPrograma("Nenhum arquivo PGN encontrado. Coloque algum na mesma pasta desde executavel e tente novamente.");
+        this->encerrarPrograma("Nenhum arquivo PGN encontrado. Coloque algum na mesma pasta deste executavel e tente novamente.");
     }
 
+    //Exibe os arquivos encontrados e os números correspondentes
     wprintw(_janelaPadrao, "Escolha um arquivo PGN para comecar:\n\n");
     wattron(_janelaPadrao, COLOR_PAIR(COR_MENU));
     for (int i = 0; i < arquivos.size(); i++) {
@@ -79,20 +84,22 @@ std::string Interface::selecionarArquivo() {
     wattroff(_janelaPadrao, COLOR_PAIR(COR_MENU));
     overwrite(_janelaPadrao, stdscr);
 
+    //Coleta a entrada do número da opção, ou q para sair
     while (1) {
         int entrada = wgetch(stdscr);
 
         if (entrada == 'q' || entrada == 'Q') this->encerrarPrograma("", true);
 
+        //Converte o número em char para um número inteiro
         int numero = entrada - '0';
 
+        //Retorna o nome de arquivo no índice correspondente
         if (numero > 0 && numero <= arquivos.size()) return arquivos[numero - 1];
     }
 }
 
 void Interface::imprimirJogo(Jogo jogo) {
-    //Obtém e imprime cada um dos dados extras na janela padrão e a exibe
-
+    //Exibe cada um dos itens usando cor para o nome do item e branco para o conteúdo
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "Evento: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
@@ -113,6 +120,7 @@ void Interface::imprimirJogo(Jogo jogo) {
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%s\n", jogo.getRodada().c_str());
 
+    //Nesse caso e no proximo, adiciona o elo ao lado do nome dos jogadores, se ele existir
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "Branco: ");
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
@@ -140,21 +148,23 @@ void Interface::imprimirJogo(Jogo jogo) {
 
 void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleiro, bool legenda, std::vector<std::vector<int>> posDestaque) {
     int numLinha;
+
     //Limpa a janela padrão
     wclear(_janelaPadrao);
 
+    //Coordenadas e borda superior
     wattron(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
     wprintw(_janelaPadrao, T_LINHA_LETRAS);
     wattroff(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
-
     wprintw(_janelaPadrao, T_BORDA_HORIZONTAL);
 
     //Iteração das linhas
     for (int i = 0; i < tabuleiro.size(); i++) {
+        //Linha vazia com delimitadores verticais
         wprintw(_janelaPadrao, T_LINHA_VAZIA);
-        //Imprime o número da linha, de 8 a 1, e a borda esquerda
-        numLinha = 8 - i;
 
+        //Número da linha, de 8 a 1, e a borda esquerda
+        numLinha = 8 - i;
         wattron(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
         wprintw(_janelaPadrao, "[%d]", numLinha);
         wattroff(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
@@ -162,11 +172,13 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
 
         //Iteração das colunas em cada linha
         for (int j = 0; j < tabuleiro[i].size(); j++) {
-            //Elemento do quadrado ou espaço vazio, espaçamento e borda direita
+            //Elemento do quadrado ou espaço vazio
             std::string conteudo = tabuleiro[i][j].length() > 0 ? tabuleiro[i][j].c_str() : " ";
+
+            //Determina se é o branco (letra maiúscula)
             bool branco = std::isupper(conteudo[0]);
 
-            //Determina a cor da peça (se é branca/preta e se está na posição de destaque)
+            //Determina a cor (de impressão) da peça (branco/preto e se está na posição de destaque)
             int cor;
             if (branco) {
                 if (posDestaque.size() >= 1 && posDestaque[0][0] == i && posDestaque[0][1] == j)
@@ -180,6 +192,7 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
                     cor = COR_PECA_PRETA;
             }
 
+            //Espaçamento, conteúdo (peça ou vazio) e borda direita, nas cores apropriadas
             wprintw(_janelaPadrao, "  ");
             wattron(_janelaPadrao, COLOR_PAIR(cor));
             wprintw(_janelaPadrao, " %s ", conteudo.c_str());
@@ -188,18 +201,20 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
             wprintw(_janelaPadrao, "|");
         }
 
+        //Número da linha à direita
         wattron(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
         wprintw(_janelaPadrao, " [%d]\n", numLinha);
         wattroff(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
 
+        //Linha vazia e borda horizontal
         wprintw(_janelaPadrao, T_LINHA_VAZIA);
         wprintw(_janelaPadrao, T_BORDA_HORIZONTAL);
     }
 
+    //Coordenadas inferiores
     wattron(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
     wprintw(_janelaPadrao, T_LINHA_LETRAS);
     wattroff(_janelaPadrao, COLOR_PAIR(COR_LEGENDA));
-
     wprintw(_janelaPadrao, "\n");
 
     //Imprime a legenda das peças, se solicitado
@@ -212,6 +227,7 @@ void Interface::imprimirTabuleiro(std::vector<std::vector<std::string>> tabuleir
 void Interface::imprimirCapturados(std::vector<std::vector<std::string>> capturados) {
     std::vector<std::string> branco = capturados[0], preto = capturados[1];
 
+    //Capturados do branco, com cores apropriadas
     wprintw(_janelaPadrao, "Pecas brancas capturadas: ");
     wattron(_janelaPadrao, COLOR_PAIR(COR_PECA_BRANCA));
     for (auto peca : branco) {
@@ -220,6 +236,7 @@ void Interface::imprimirCapturados(std::vector<std::vector<std::string>> captura
     wattroff(_janelaPadrao, COLOR_PAIR(COR_PECA_BRANCA));
     wprintw(_janelaPadrao, "\n");
 
+    //Capturados do preto, com cores apropriadas
     wprintw(_janelaPadrao, "Pecas pretas capturadas: ");
     wattron(_janelaPadrao, COLOR_PAIR(COR_PECA_PRETA));
     for (auto peca : preto) {
@@ -238,6 +255,7 @@ void Interface::imprimir(std::string texto) {
 }
 
 void Interface::imprimirInformacao(std::string texto, int cor) {
+    //Ativa e desativa a cor para imprimir, se informada (> 0)
     if (cor > 0) wattron(_janelaInformacoes, COLOR_PAIR(cor));
     wprintw(_janelaInformacoes, "%s\n\n", texto.c_str());
     if (cor > 0) wattroff(_janelaInformacoes, COLOR_PAIR(cor));
@@ -245,7 +263,9 @@ void Interface::imprimirInformacao(std::string texto, int cor) {
 }
 
 void Interface::imprimirResultado(std::string resultado, int jogadas, int capturadosBranco, int capturadosPreto) {
+    //Limpa a janela padrão e a de informações
     wclear(_janelaPadrao);
+    this->limparInformacoes();
 
     wprintw(_janelaPadrao, "\n\n");
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
@@ -277,48 +297,56 @@ void Interface::imprimirResultado(std::string resultado, int jogadas, int captur
     wprintw(_janelaPadrao, "\n");
 
     overwrite(_janelaPadrao, stdscr);
-
-    this->limparInformacoes();
 }
 
 int Interface::aguardarAcao(bool continuar, bool voltar, bool recomecar, bool sair) {
     //Limpa a janela de opções
     wclear(_janelaOpcoes);
 
-    //Imprime e exibe as opções
+    //Imprime e exibe as novas opções
     wattron(_janelaOpcoes, COLOR_PAIR(COR_MENU));
-
     if (continuar) wprintw(_janelaOpcoes, " [ENTER] continuar ");
     if (voltar) wprintw(_janelaOpcoes, " [v] voltar ");
     if (recomecar) wprintw(_janelaOpcoes, " [r] recomecar ");
     if (sair) wprintw(_janelaOpcoes, " [q] sair ");
     wprintw(_janelaOpcoes, "\n");
-
     wattroff(_janelaOpcoes, COLOR_PAIR(COR_MENU));
     overwrite(_janelaOpcoes, stdscr);
 
-    //Coleta a entrada
+    //Coleta a entrada e retorna o inteiro correspondente, se ela for válida
+    //No caso sair, encerra o programa diretamente
     while (1) {
         int entrada = getch();
 
+        //Se for uma letra maiúscula, converte para minúscula
         if (std::isupper(entrada)) entrada = std::tolower(entrada);
 
+        //Continuar
         if (entrada == '\n' && continuar) {
             wclear(_janelaOpcoes);
             overwrite(_janelaOpcoes, stdscr);
             return ENTRADA_CONTINUAR;
-        } else if (entrada == 'v' && voltar) {
+        }
+
+        //Voltar
+        else if (entrada == 'v' && voltar) {
             wclear(_janelaOpcoes);
             overwrite(_janelaOpcoes, stdscr);
             return ENTRADA_VOLTAR;
-        } else if (entrada == 'r' && recomecar) {
+        }
+
+        //Recomeçar
+        else if (entrada == 'r' && recomecar) {
             wclear(_janelaOpcoes);
             overwrite(_janelaOpcoes, stdscr);
             return ENTRADA_RECOMECAR;
-        } else if (entrada == 'q' && sair) {
+        }
+
+        //Sair
+        else if (entrada == 'q' && sair) {
             wclear(_janelaOpcoes);
             overwrite(_janelaOpcoes, stdscr);
-            //Encerra o programa, limpando as janelas se a partida tiver sido iniciada
+            //Encerra o programa, ignorando a confirmação
             this->encerrarPrograma("Solicitado pelo usuário.", true);
         }
     }

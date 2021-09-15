@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
     //Inicializa a interface
     Interface interface;
 
+    //Pega o nome do arquivo pelo terminal, se informado, ou do menu de opções
     if (argc > 1) {
         nomeArquivo = argv[1];
     } else {
@@ -37,8 +38,8 @@ int main(int argc, char *argv[]) {
     //Inicializa a partida com o nome do arquivo a ser lido
     Partida partida(nomeArquivo, &interface);
 
+    //Prepara e começa o jogo
     partida.preparar();
-
     partida.comecar();
 
     return 0;
