@@ -91,7 +91,7 @@ Os vetores de string `_capturadosBranco` e `_capturadosPreto`, inicialmente vazi
 
 ### Dados do jogo e tabuleiro e menu
 
-De volta ao fluxo principal do programa, `Interface::imprimirJogo` é usado para imprimir os dados do jogo usando getters de `Partida` e `Jogo`. Com a confirmação do usuário para continuar, usando `Interface::coletarEntrada`, a tela é apagada e o tabuleiro inicial é exibido usando `Interface::imprimirTabuleiro`. A partir daqui, a coleta de entrada será feita após cada ação, podendo o usuário optar por continuar, voltar ou sair.
+De volta ao fluxo principal do programa, `Partida::preparar` é chamado. Nele,`Interface::imprimirJogo` é usado para imprimir os dados do jogo usando getters de `Partida` e `Jogo`. Com a confirmação do usuário para continuar pelo método `Interface::aguardarAcao`, o programa depois chama `Interface::comecar` para iniciar o jogo. A tela é apagada e o tabuleiro inicial é exibido usando `Interface::imprimirTabuleiro`. A partir daqui, a coleta de entrada será feita após cada ação, podendo o usuário optar por continuar, voltar, recomeçar ou sair, dependendo do momento do jogo.
 
 ### Executando a próxima jogada
 
@@ -103,9 +103,9 @@ Antes de qualquer modificação, o tabuleiro e os vetores de peças capturadas a
 
 Depois, o objeto `Partida` incrementa o índice `jogadaAtual` em 1, obtém a string da jogada correspondente em notação algébrica usando `Jogo::getJogada` e a separa em jogada do branco e jogada do preto.
 
-Para cada jogada individual em NAP, ocorre a interpretação da string em `Partida::_aplicarJogada` para verificar qual peça foi movida e se houve captura ou cheque.
+Para cada jogada individual em NAP, ocorre a interpretação da string em `Partida::_aplicarJogada` para verificar qual peça foi movida e se houve captura ou cheque. O movimento da peça, de fato, ocorre em `Partida::_moverPeca`, para peças comuns, ou `Partida::_moverRoque`, para o caso de jogo especial roque. Em um dos dois últimos métodos citados também ocorre o preenchimento do vetor `_posDestaque`, que guarda as coordenadas de duas peças movidas na jogada atual, posteriormente passado para a impressão do tabuleiro.
 
-A partir da coordenada algébrica do destino (ex. `e4`), são determinados os índices i,j do quadrado no tabuleiro usando `Partida::_encontrarIndices` e encontrada uma peça do tipo adequado que tenha movimento válido para esse destino, usando os métodos da classe Validador (ex. `Validador::peao_ `). Se houve captura, a peça atual da posição final é adicionada ao vetor de capturados correspondente. A peça adequada é então removida da posição anterior e colocada na posição final.
+A partir da coordenada algébrica do destino (ex. `e4`), são determinados os índices i,j do quadrado no tabuleiro usando `Partida::_encontrarIndices` e encontrada uma peça do tipo adequado que tenha movimento válido para esse destino, usando os métodos da classe Validador (ex. `Validador::peao_ `). Se houve captura, a peça atual da posição final é adicionada ao vetor de capturados correspondente. A peça adequada é então removida da posição anterior e colocada na posição final. No caso da torre, uma validação adicional com `Partida::_caminhoLivre` é necessária para encontrar a peça certa, sem bloqueios no caminho.
 
 Nesse momento o programa pode solicitar a impressão do novo tabuleiro usando `Interface::imprimirTabuleiro`.
 
@@ -123,6 +123,19 @@ Por causa da necessidade de voltar 2 jogadas, não é possível voltar para ante
 
 Quando o usuário tenta avançar para uma jogada que não existe, dado por `Partida::_jogadaAtual >= Jogo::getJogadas::size`, é sinalizado o fim do jogo com `Partida::_acabou = true` para interromper o loop que repetia a sequência.
 
-O resultado (quem venceu, ou empate) e as estatísticas do jogo (quantidade de jogadas e de capturas) são exibidas com `Interface::imprimirResultado` e o progeama encerrado com `Interface::encerrarPrograma`.
+O resultado (quem venceu, ou empate) e as estatísticas do jogo (quantidade de jogadas e de capturas) são exibidas com `Interface::imprimirResultado`.
+
+A entrada do usuário é coletada mais uma vez, recomeçando o jogo com `Partida::recomecar` ou encerrando o programa.
 
 ---
+
+## Outras observações
+
+### Impressão do tabuleiro
+
+O tabuleiro é impresso usando somente caracteres ASCII comuns como `-` e `|` pois caracteres do ASCII extendido como `█` _(ALT + 219)_ não foram impressos corretamente
+fora do Windows.
+
+### Compatibilidade Linux-Windows
+
+O programa foi desenvolvimento primariamente com a biblioteca `ncurses.h`, disponível no Linux. Para Windows, a biblioteca `PDCurses`, que disponibiliza um cabeçalho `curses.h` é em grande parte equivalente (totalmente, no caso deste programa). A biblioteca correta será incluida de acordo com o sistema onde acontece a compilação pelo uso de macros de plataforma `__linux__` e `_WIN32`. No Windows, o cabeçalho precisa estar em `PDCurses\curses.h`. Os macros também são utilizados para resolver uma diferença entre o uso de `CRLF` e `LF` entre os sistemas em `Partida::_lerJogadas`.

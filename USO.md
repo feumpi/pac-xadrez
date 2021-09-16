@@ -18,6 +18,10 @@ Este programa é um visualizador de partida de xadrez. Ao iniciar, deve ser info
 
 O programa foi testado e funcionou como esperado primariamente em ambiente Linux com `Ubuntu 20.04 LTS` e compilado com `gcc 9.3.0`. Adicionalmente, em `Windows 10 build 22454` compilado com `gcc 10.2.0`. Apesar dos esforços para manter o programa multiplataforma e oferecer bibliotecas e instruções de compilação equivalentes, a execução em Linux é recomendada caso algum problema seja encontrado.
 
+### Caracter de fim de linha
+
+É importante que os arquivos PGN usem caracteres de fim de linha `CRLF`, o padrão do Windows, como os que foram disponibilizados para teste. O programa leva em consideração que o Windows entende ele inteiro como um `\n` e o Linux como um caracter extra `CR` seguido do `\n`, que influencia na leitura de algumas jogadas ao fim da linha no método que foi usado.
+
 # Como utilizar este programa
 
 ## Preparar bibliotecas
@@ -35,9 +39,11 @@ _no caso do Ubuntu, ou pacote e sintaxe equivalente para a distribuição utiliz
 ```console
 git clone https://github.com/wmcbrine/PDCurses
 ```
-Ou baixe e extraia o .zip
+
+Ou baixe e extraia o .zip, tendo a pasta _PDCurses_ na raiz do projeto.
 
 Compile:
+
 ```
 cd PDCurses\wincon
 make
@@ -70,6 +76,10 @@ g++ -std=c++17 main.cpp jogo.cpp partida.cpp interface.cpp validador.cpp PDCurse
 ```
 
 ## Executar
+
+### Tamanho do terminal
+
+Para que todas as informações sejam exibidas corretamente, é recomendado que o terminal tenha disponível ao menos 130 colunas de largura e 85 linhas de altura. Diminua o tamanho da fonte, caso necessário.
 
 Execute o arquivo criado no passo anterior
 
@@ -194,6 +204,8 @@ R: torre, N: cavalo, B: bispo, Q: dama, K: rei, P: peão
 MAIUSCULAS: BRANCAS, minusculas: pretas
 ```
 
+Além das peças brancas e pretas serem diferenciadas por maiúsculas e minúsculas, respectivamente, elas são representadas por cores diferentes, sendo o branco verde e o preto magenta.
+
 À direita dele, fica a região onde será exibida informação adicional:
 
 ```
@@ -241,10 +253,14 @@ Ao continuar mais uma vez, será aplicada a primeira jogada da partida carregada
        [A]     [B]     [C]     [D]     [E]     [F]     [G]     [H]
 ```
 
+Observe, a partir de agora, que as peças movidas na jogada atual são destacadas com um fundo branco, para que seja mais fácil identificá-las.
+
 Na janela à direita, são exibidas as informações sobre a jogada atual:
 
 ```
 Jogada #1
+
+BRANCO: e4
 
 Movendo peao branco para e4
 
