@@ -287,12 +287,12 @@ void Interface::imprimirResultado(std::string resultado, int jogadas, int captur
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%d ", capturadosBranco);
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
-    wprintw(_janelaPadrao, "peças brancas foram capturadas\n");
+    wprintw(_janelaPadrao, "pecas brancas foram capturadas\n");
 
     wattron(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
     wprintw(_janelaPadrao, "%d ", capturadosPreto);
     wattroff(_janelaPadrao, COLOR_PAIR(COR_SECUNDARIA));
-    wprintw(_janelaPadrao, "peças pretas foram capturadas\n");
+    wprintw(_janelaPadrao, "pecas pretas foram capturadas\n");
 
     wprintw(_janelaPadrao, "\n");
 
